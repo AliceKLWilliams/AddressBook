@@ -2,6 +2,7 @@ let express = require("express");
 let app = express();
 
 let bodyParser = require("body-parser");
+let methodOverride = require("method-override");
 
 let mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/AddressBook");
@@ -18,10 +19,31 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
+// Set up method override
+app.use(methodOverride("_method"));
+
 app.get("/people/new", (req, res) => {
 	res.render("person/new");
 });
 
+app.get("/people/:id/edit", (req, res) => {
+	Person.findById(req.params.id, (err, person) => {
+		if(err) return res.redirect("/error");
+		
+		res.render("person/edit", {person});
+	});
+
+});
+
+app.put("/people/:id", (req, res) => {
+	Person.updateOne({_id: req.params.id}, req.body)
+	.then((person) => {
+		res.redirect("/");
+	})
+	.catch((err) => {
+		res.redirect("/error");
+	});
+});
 
 app.post("/people", (req, res) => {
 	Person.create({

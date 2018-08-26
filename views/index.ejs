@@ -9,6 +9,7 @@
 		<tr>
 			<th>Name</th>
 			<th>Age</th>
+			<th>Options</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -16,6 +17,9 @@
 			<tr>
 				<td><%= person.name %></td>
 				<td><%= person.age %></td>
+				<td>
+					<a href="/people/<%= person._id %>/edit">Edit</a>
+				</td>
 			</tr>
 		<% }) %>
 	</tbody>
