@@ -1,31 +1,35 @@
 <% include partials/header %>
 
-<h1>Address Book</h1>
+<div class="container">
 
-<a href="/people/new">Add new Person</a>
+	<h1>Address Book</h1>
 
-<table class="table">
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>Age</th>
-			<th>Options</th>
-		</tr>
-	</thead>
-	<tbody>
-		<% people.forEach(person => { %>
+	<a href="/people/new">Add new Person</a>
+
+	<table class="table">
+		<thead>
 			<tr>
-				<td><%= person.name %></td>
-				<td><%= person.age %></td>
-				<td>
-					<a href="/people/<%= person._id %>/edit">Edit</a>
-					<form action="/people/<%=person._id%>?_method=DELETE" method="POST">
-						<button>Delete</button>
-					</form>
-				</td>
+				<th>Name</th>
+				<th>Age</th>
+				<th>Options</th>
 			</tr>
-		<% }) %>
-	</tbody>
-</table>
+		</thead>
+		<tbody>
+			<% people.forEach(person => { %>
+				<tr>
+					<td><%= person.name %></td>
+					<td><%= person.age %></td>
+					<td>
+						<a href="/people/<%= person._id %>/edit">Edit</a>
+						<form action="/people/<%=person._id%>?_method=DELETE" method="POST">
+							<button class="btn btn-link">Delete</button>
+						</form>
+					</td>
+				</tr>
+			<% }) %>
+		</tbody>
+	</table>
+
+</div>
 
 <% include partials/footer %>
