@@ -37,6 +37,15 @@ app.get("/people/:id/edit", (req, res) => {
 
 });
 
+app.delete("/people/:id", (req, res) => {
+	Person.findByIdAndRemove(req.params.id)
+	.then((deletedPerson) => {
+		res.redirect("/");
+	}).catch(err => {
+		res.redirect("/error");
+	});
+});
+
 app.put("/people/:id", (req, res) => {
 	Person.updateOne({_id: req.params.id}, req.body)
 	.then((person) => {
