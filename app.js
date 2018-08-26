@@ -27,10 +27,12 @@ app.get("/people/new", (req, res) => {
 });
 
 app.get("/people/:id/edit", (req, res) => {
-	Person.findById(req.params.id, (err, person) => {
-		if(err) return res.redirect("/error");
-		
+	Person.findById(req.params.id)
+	.then(person => {
 		res.render("person/edit", {person});
+
+	}).catch(err => {
+		res.redirect("/error");
 	});
 
 });
@@ -63,10 +65,11 @@ app.get("/error", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-	Person.find({}, (err, people) => {
-		if(err) return res.redirect("/error");
-
+	Person.find({})
+	.then(people => {
 		res.render("index", {people});
+	}).catch(err => {
+		res.redirect("/error");
 	});
 });
 
