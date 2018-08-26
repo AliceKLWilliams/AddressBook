@@ -1,0 +1,24 @@
+<% include partials/header %>
+
+<h1>Address Book</h1>
+
+<a href="/people/new">Add new Person</a>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Age</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% people.forEach(person => { %>
+			<tr>
+				<td><%= person.name %></td>
+				<td><%= person.age %></td>
+			</tr>
+		<% }) %>
+	</tbody>
+</table>
+
+<% include partials/footer %>
