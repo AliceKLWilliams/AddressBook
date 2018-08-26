@@ -19,6 +19,9 @@
 				<td><%= person.age %></td>
 				<td>
 					<a href="/people/<%= person._id %>/edit">Edit</a>
+					<form action="/people/<%=person._id%>?_method=DELETE" method="POST">
+						<button>Delete</button>
+					</form>
 				</td>
 			</tr>
 		<% }) %>
