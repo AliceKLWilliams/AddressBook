@@ -26,6 +26,20 @@ app.get("/people/new", (req, res) => {
 	res.render("person/new");
 });
 
+app.get("/people/:id", (req, res) => {
+	Person.findById(req.params.id)
+	.then(person => {
+		if(person){
+			res.render("person/show", {person});
+		} else{
+			res.redirect("/error");
+		}
+	})
+	.catch(err => {
+		res.redirect("/error");
+	});
+});
+
 app.get("/people/:id/edit", (req, res) => {
 	Person.findById(req.params.id)
 	.then(person => {
