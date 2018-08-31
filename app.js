@@ -196,14 +196,18 @@ app.get("/", (req, res) => {
 	Promise.all(getters)
 	.then(([people, groups]) => {
 		people.forEach(person => {
-			let birthday = new Date(person.birthday).getTime();
-			let now = Date.now();
+			if(person.birthday){
+				let birthday = new Date(person.birthday).getTime();
+				let now = Date.now();
 
-			let millDifference = now - birthday;
+				let millDifference = now - birthday;
 
-			let years = (((((millDifference / 1000) / 60) / 60) / 24) /365);
+				let years = (((((millDifference / 1000) / 60) / 60) / 24) /365);
 
-			person.age = Math.floor(years);
+				person.age = Math.floor(years);
+			} else {
+				person.age = "N/A";
+			}
 		});
 
 
