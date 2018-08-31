@@ -21,6 +21,16 @@
 				<td><%=group.name%></td>
 				<td>
 					<a href="/group/<%=group._id%>/edit">Edit</a>
+					<form action="/group/<%=group._id%>?_method=DELETE&deleteMembers=false" method="POST">
+						<button class="btn btn-link">
+							Delete Group (not members)
+						</button>
+					</form>
+					<form action="/group/<%=group._id%>?_method=DELETE&deleteMembers=true" method="POST">
+						<button class="btn btn-link">
+							Delete Group (and members)
+						</button>
+					</form>
 				</td>
 			</tr>
 		<% }) %>

@@ -167,6 +167,25 @@ app.put("/group/:id", (req, res) => {
 	});
 });
 
+app.delete("/group/:id", (req, res) => {
+	let personPromise;
+	if(req.query.deleteMembers == true){
+		// Delete all members with this group
+		personPromise = Person.deleteMany({groups: mongoose.Types.ObjectId(req.params.id)});
+	} else{
+		// Remove group reference from people
+		personPromise = Person.updateMany({groups: req.params.id}, {$pull: {groups: req.params.id}});
+	}
+
+	// Delete the group
+	Promise.all([Group.deleteOne({_id:req.params.id}), personPromise])
+	.then(data => {
+		res.redirect("/");
+	}).catch(err => {
+		res.redirect("/error");
+	})
+});
+
 app.get("/error", (req, res) => {
 	res.render("error");
 });
