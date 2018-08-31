@@ -4,7 +4,7 @@ let Schema = mongoose.Schema;
 
 let personSchema = new Schema({
 	name:String,
-	age:Number
+	birthday: Date
 });
 
 module.exports = mongoose.model("Person", personSchema);

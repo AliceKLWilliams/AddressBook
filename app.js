@@ -43,7 +43,17 @@ app.get("/people/:id", (req, res) => {
 app.get("/people/:id/edit", (req, res) => {
 	Person.findById(req.params.id)
 	.then(person => {
-		res.render("person/edit", {person});
+		let birthday = new Date(person.birthday);
+		let day = birthday.getDate();
+		let month = birthday.getMonth() + 1;
+		let year = birthday.getFullYear();
+
+		if(month < 10) month = `0${month}`;
+		if (day < 10) day = `0${day}`;
+
+		let formattedBday = `${year}-${month}-${day}`;
+
+		res.render("person/edit", {person, birthday:formattedBday});
 
 	}).catch(err => {
 		res.redirect("/error");
@@ -73,7 +83,7 @@ app.put("/people/:id", (req, res) => {
 app.post("/people", (req, res) => {
 	Person.create({
 		name:req.body.name,
-		age:req.body.age
+		birthday:req.body.birthday
 	}, (err) => {
 		if(err){
 			res.redirect("/error");
@@ -90,6 +100,18 @@ app.get("/error", (req, res) => {
 app.get("/", (req, res) => {
 	Person.find({})
 	.then(people => {
+		people.forEach(person => {
+			let birthday = new Date(person.birthday).getTime();
+			let now = Date.now();
+
+			let millDifference = now - birthday;
+
+			let years = (((((millDifference / 1000) / 60) / 60) / 24) /365);
+
+			person.age = Math.floor(years);
+		});
+
+
 		res.render("index", {people});
 	}).catch(err => {
 		res.redirect("/error");
