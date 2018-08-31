@@ -9,7 +9,13 @@ let personSchema = new Schema({
 	address:String,
 	postcode: String,
 	mobile: String,
-	homePhone:String
+	homePhone:String,
+	groups:[
+		{
+			type:mongoose.Schema.Types.ObjectId,
+			ref:"Group"
+		}
+	]
 });
 
 module.exports = mongoose.model("Person", personSchema);
