@@ -100,6 +100,18 @@ app.get("/error", (req, res) => {
 app.get("/", (req, res) => {
 	Person.find({})
 	.then(people => {
+		people.forEach(person => {
+			let birthday = new Date(person.birthday).getTime();
+			let now = Date.now();
+
+			let millDifference = now - birthday;
+
+			let years = (((((millDifference / 1000) / 60) / 60) / 24) /365);
+
+			person.age = Math.floor(years);
+		});
+
+
 		res.render("index", {people});
 	}).catch(err => {
 		res.redirect("/error");
