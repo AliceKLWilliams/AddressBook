@@ -1,0 +1,22 @@
+<% include ../partials/header %>
+
+<div class="container">
+	<h1>Edit Group</h1>
+	
+	<form action="/group/<%=group._id%>?_method=PUT" method="post">
+		<div class="form__group">
+			<label for="name">Group Name</label>
+			<input type="text" name="name" class="form-control" value="<%=group.name%>">
+		</div>
+
+		<div class="form__group">
+			<label for="colour">Colour</label>
+			<input type="color" name="colour" class="form-control" value="<%=group.colour%>">
+		</div>
+
+		<button class="btn btn-primary">Submit</button>
+	</form>
+
+</div>
+
+<% include ../partials/footer %>

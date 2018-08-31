@@ -148,13 +148,34 @@ app.post("/group", (req, res) => {
 	})
 });
 
+app.get("/group/:id/edit", (req, res) => {
+	Group.findById(req.params.id)
+	.then(group => {
+		res.render("group/edit", {group});
+	})
+	.catch(err => {
+		res.redirect("/error");
+	});
+});
+
+app.put("/group/:id", (req, res) => {
+	Group.updateOne({_id: req.params.id}, req.body)
+	.then(group => {
+		res.redirect("/");
+	}).catch(err => {
+		res.redirect("/error");
+	});
+});
+
 app.get("/error", (req, res) => {
 	res.render("error");
 });
 
 app.get("/", (req, res) => {
-	Person.find({})
-	.then(people => {
+	let getters = [Person.find({}), Group.find({})];
+
+	Promise.all(getters)
+	.then(([people, groups]) => {
 		people.forEach(person => {
 			let birthday = new Date(person.birthday).getTime();
 			let now = Date.now();
@@ -167,7 +188,7 @@ app.get("/", (req, res) => {
 		});
 
 
-		res.render("index", {people});
+		res.render("index", {people, groups});
 	}).catch(err => {
 		res.redirect("/error");
 	});

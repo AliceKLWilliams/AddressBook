@@ -4,9 +4,31 @@
 
 	<h1>Address Book</h1>
 
-	<a href="/people/new">Add new Person</a>
+
+	<h2>Groups</h2>
 	<a href="/group/new">Add new Group</a>
 
+	<table class="table">
+		<thead>
+			<tr>
+				<td>Name</td>
+				<td>Options</td>
+			</tr>
+		</thead>
+		<tbody>
+		<% groups.forEach(group => { %>
+			<tr>
+				<td><%=group.name%></td>
+				<td>
+					<a href="/group/<%=group._id%>/edit">Edit</a>
+				</td>
+			</tr>
+		<% }) %>
+		</tbody>
+	</table>
+
+	<h2>People</h2>
+	<a href="/people/new">Add new Person</a>
 	<table class="table">
 		<thead>
 			<tr>
