@@ -149,6 +149,7 @@ app.post("/group", (req, res) => {
 
 	let colour = hexToRgb(req.body.colour);
 
+	// From: https://stackoverflow.com/questions/1855884/determine-font-color-based-on-background-color
 	let luminance = ( 0.299 * colour.r + 0.587 * colour.g + 0.114 * colour.b)/255;
 
 	let fontColour = (luminance > 0.5) ? "#000000" : "#FFFFFF";
