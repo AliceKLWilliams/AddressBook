@@ -7,35 +7,11 @@
 
 	<h2>Groups</h2>
 	<a href="/group/new">Add new Group</a>
-
-	<table class="table">
-		<thead>
-			<tr>
-				<td>Name</td>
-				<td>Options</td>
-			</tr>
-		</thead>
-		<tbody>
+	<div class="groups">
 		<% groups.forEach(group => { %>
-			<tr>
-				<td><%=group.name%></td>
-				<td>
-					<a href="/group/<%=group._id%>/edit">Edit</a>
-					<form action="/group/<%=group._id%>?_method=DELETE&deleteMembers=false" method="POST">
-						<button class="btn btn-link">
-							Delete Group (not members)
-						</button>
-					</form>
-					<form action="/group/<%=group._id%>?_method=DELETE&deleteMembers=true" method="POST">
-						<button class="btn btn-link">
-							Delete Group (and members)
-						</button>
-					</form>
-				</td>
-			</tr>
+			<p class="group" style="background-color:<%=group.colour%>;color:<%=group.fontColour%>"><%=group.name%> <a class="group__icon" href="/group/<%=group._id%>/edit"><i class="fa fa-pen"></i></a></p>
 		<% }) %>
-		</tbody>
-	</table>
+	</div>
 
 	<h2>People</h2>
 	<a href="/people/new">Add new Person</a>
@@ -44,6 +20,7 @@
 			<tr>
 				<th>Name</th>
 				<th>Age</th>
+				<th>Groups</th>
 				<th>Options</th>
 			</tr>
 		</thead>
@@ -52,6 +29,11 @@
 				<tr>
 					<td><%= person.firstName %> <%= person.lastName%></td>
 					<td><%= person.age %></td>
+					<td>
+						<% person.groups.forEach(group => { %>
+							<span class="badge" style="background-color:<%=group.colour%>;color:<%=group.fontColour%>"><%=group.name%></span>
+						<% }) %>
+					</td>
 					<td>
 						<a href="/people/<%= person._id%>">Show</a>
 						<a href="/people/<%= person._id %>/edit">Edit</a>
@@ -65,5 +47,6 @@
 	</table>
 
 </div>
+
 
 <% include partials/footer %>
