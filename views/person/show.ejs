@@ -1,7 +1,11 @@
 <% include ../partials/header %>
 
 <div class="container">
-	<h1><%= person.name%></h1>
+	<h1><%= person.firstName%> <%= person.lastName%></h1>
+	<p><%= person.address %></p>
+	<p><%= person.postcode %></p>
+	<p><%= person.mobile %></p>
+	<p><%= person.homePhone %></p>
 </div>
 
 <% include ../partials/footer %>

@@ -5,13 +5,38 @@
 
 	<form action="/people/<%=person._id%>?_method=PUT" method="POST">
 		<div class="form__group">
-			<label for="name">Name</label>
-			<input type="text" class="form-control" id="name" name="name" value="<%=person.name%>">
+			<label for="firstName">First Name</label>
+			<input type="text" class="form-control" name="firstName" value="<%=person.firstName%>">
+		</div>
+
+		<div class="form__group">
+			<label for="lastName">Last Name</label>
+			<input type="text" class="form-control" name="lastName" value="<%=person.lastName%>">
 		</div>
 
 		<div class="form__group">
 			<label for="birthday">Birthday</label>
-			<input type="date" class="form-control" name="birthday" value="<%=birthday%>">
+			<input type="date" class="form-control" name="birthday" value="<%= birthday%>">
+		</div>
+
+		<div class="form__group">
+			<label for="postcode">Postcode</label>
+			<input type="text" class="form-control" name="postcode" value="<%=person.postcode%>">
+		</div>
+
+		<div class="form__group">
+			<label for="address">Address</label>
+			<textarea class="form-control" name="address" id="" cols="30" rows="10"><%=person.address%></textarea>
+		</div>
+
+		<div class="form__group">
+			<label for="mobile">Mobile</label>
+			<input type="text" class="form-control" name="mobile" value="<%=person.mobile%>">
+		</div>
+
+		<div class="form__group">
+			<label for="homePhone">Home Phone</label>
+			<input type="text" class="form-control" name="homePhone" value="<%=person.homePhone%>">
 		</div>
 
 		<button class="btn btn-primary">Edit</button>

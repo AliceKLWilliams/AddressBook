@@ -81,10 +81,7 @@ app.put("/people/:id", (req, res) => {
 });
 
 app.post("/people", (req, res) => {
-	Person.create({
-		name:req.body.name,
-		birthday:req.body.birthday
-	}, (err) => {
+	Person.create(req.body, (err) => {
 		if(err){
 			res.redirect("/error");
 		} else {

@@ -17,7 +17,7 @@
 		<tbody>
 			<% people.forEach(person => { %>
 				<tr>
-					<td><%= person.name %></td>
+					<td><%= person.firstName %> <%= person.lastName%></td>
 					<td><%= person.age %></td>
 					<td>
 						<a href="/people/<%= person._id%>">Show</a>
