@@ -39,6 +39,20 @@
 			<input type="text" class="form-control" name="homePhone" value="<%=person.homePhone%>">
 		</div>
 
+		<h2>Groups</h2>
+		
+		<% groups.forEach(group => { %>
+			<div class="form-check form-check-inline">
+				<% let stringGroups = person.groups.map(groupID => groupID.toString());%>
+				<% if(stringGroups.includes(group._id.toString())) { %>
+					<input type="checkbox" class="form-check-input" name="group-<%=group._id%>" checked>
+				<% } else { %>
+					<input type="checkbox" class="form-check-input" name="group-<%=group._id%>">
+				<% } %>
+				<label for="group-<%=group._id%>" class="form-check-label"><%=group.name%></label>
+			</div>
+		<% }); %>
+
 		<button class="btn btn-primary">Edit</button>
 	</form>
 </div>

@@ -8,6 +8,7 @@ let mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/AddressBook");
 
 let Person = require("./models/Person");
+let Group = require("./models/Group");
 
 // Use EJS for templating
 app.set("view engine", "ejs");
@@ -23,7 +24,12 @@ app.use(bodyParser.json());
 app.use(methodOverride("_method"));
 
 app.get("/people/new", (req, res) => {
-	res.render("person/new");
+	Group.find({}).then(groups => {
+		res.render("person/new", {groups});
+	})
+	.catch(err => {
+		res.redirect("/error");
+	});
 });
 
 app.get("/people/:id", (req, res) => {
@@ -41,8 +47,11 @@ app.get("/people/:id", (req, res) => {
 });
 
 app.get("/people/:id/edit", (req, res) => {
-	Person.findById(req.params.id)
-	.then(person => {
+	let getters = [Person.findById(req.params.id), Group.find({})];
+
+
+	Promise.all(getters)
+	.then(([person, groups]) => {
 		let birthday = new Date(person.birthday);
 		let day = birthday.getDate();
 		let month = birthday.getMonth() + 1;
@@ -53,7 +62,7 @@ app.get("/people/:id/edit", (req, res) => {
 
 		let formattedBday = `${year}-${month}-${day}`;
 
-		res.render("person/edit", {person, birthday:formattedBday});
+		res.render("person/edit", {person, birthday:formattedBday, groups});
 
 	}).catch(err => {
 		res.redirect("/error");
@@ -71,7 +80,26 @@ app.delete("/people/:id", (req, res) => {
 });
 
 app.put("/people/:id", (req, res) => {
-	Person.updateOne({_id: req.params.id}, req.body)
+	const prefix = "group-";
+
+	let groups = [];
+	for(let key in req.body){
+		if(key.startsWith(prefix)){
+			let id = key.substring(prefix.length);
+			groups.push(id);
+		}
+	}
+
+	Person.updateOne({_id: req.params.id}, {
+		firstName: req.body.firstName,
+		lastName: req.body.lastName,
+		birthday: req.body.birthday,
+		address: req.body.address,
+		postcode: req.body.postcode,
+		mobile: req.body.mobile,
+		homePhone: req.body.homePhone,
+		groups
+	})
 	.then((person) => {
 		res.redirect("/");
 	})
@@ -81,7 +109,26 @@ app.put("/people/:id", (req, res) => {
 });
 
 app.post("/people", (req, res) => {
-	Person.create(req.body, (err) => {
+	const prefix = "group-";
+
+	let groups = [];
+	for(let key in req.body){
+		if(key.startsWith(prefix)){
+			let id = key.substring(prefix.length);
+			groups.push(id);
+		}
+	}
+
+	Person.create({
+			firstName: req.body.firstName,
+			lastName: req.body.lastName,
+			birthday: req.body.birthday,
+			address: req.body.address,
+			postcode: req.body.postcode,
+			mobile: req.body.mobile,
+			homePhone: req.body.homePhone,
+			groups
+		}, (err) => {
 		if(err){
 			res.redirect("/error");
 		} else {
@@ -90,13 +137,64 @@ app.post("/people", (req, res) => {
 	});
 });
 
+app.get("/group/new", (req, res) => {
+	res.render("group/new");
+});
+
+app.post("/group", (req, res) => {
+	Group.create(req.body, (err) => {
+		if(err) return res.redirect("/error");
+		res.redirect("/");
+	})
+});
+
+app.get("/group/:id/edit", (req, res) => {
+	Group.findById(req.params.id)
+	.then(group => {
+		res.render("group/edit", {group});
+	})
+	.catch(err => {
+		res.redirect("/error");
+	});
+});
+
+app.put("/group/:id", (req, res) => {
+	Group.updateOne({_id: req.params.id}, req.body)
+	.then(group => {
+		res.redirect("/");
+	}).catch(err => {
+		res.redirect("/error");
+	});
+});
+
+app.delete("/group/:id", (req, res) => {
+	let personPromise;
+	if(req.query.deleteMembers == true){
+		// Delete all members with this group
+		personPromise = Person.deleteMany({groups: mongoose.Types.ObjectId(req.params.id)});
+	} else{
+		// Remove group reference from people
+		personPromise = Person.updateMany({groups: req.params.id}, {$pull: {groups: req.params.id}});
+	}
+
+	// Delete the group
+	Promise.all([Group.deleteOne({_id:req.params.id}), personPromise])
+	.then(data => {
+		res.redirect("/");
+	}).catch(err => {
+		res.redirect("/error");
+	})
+});
+
 app.get("/error", (req, res) => {
 	res.render("error");
 });
 
 app.get("/", (req, res) => {
-	Person.find({})
-	.then(people => {
+	let getters = [Person.find({}), Group.find({})];
+
+	Promise.all(getters)
+	.then(([people, groups]) => {
 		people.forEach(person => {
 			let birthday = new Date(person.birthday).getTime();
 			let now = Date.now();
@@ -109,7 +207,7 @@ app.get("/", (req, res) => {
 		});
 
 
-		res.render("index", {people});
+		res.render("index", {people, groups});
 	}).catch(err => {
 		res.redirect("/error");
 	});
