@@ -30,25 +30,9 @@ router.get("/people/:id", (req, res) => {
 router.get("/people/:id/edit", (req, res) => {
 	let getters = [Person.findById(req.params.id), Group.find({})];
 
-
 	Promise.all(getters)
 	.then(([person, groups]) => {
-		if(person.birthday){
-			let birthday = new Date(person.birthday);
-			let day = birthday.getDate();
-			let month = birthday.getMonth() + 1;
-			let year = birthday.getFullYear();
-
-			if(month < 10) month = `0${month}`;
-			if (day < 10) day = `0${day}`;
-
-			let formattedBday = `${year}-${month}-${day}`;
-
-			res.render("person/edit", {person, birthday:formattedBday, groups});
-		} else{
-			res.render("person/edit", {person, birthday:"", groups});
-		}
-
+		res.render("person/edit", {person, groups});
 	}).catch(err => {
 		res.redirect("/error");
 	});
@@ -78,7 +62,7 @@ router.put("/people/:id", (req, res) => {
 	Person.updateOne({_id: req.params.id}, {
 		firstName: req.body.firstName,
 		lastName: req.body.lastName,
-		birthday: req.body.birthday,
+		birthday: formatBirthday(req.body.birthday),
 		address: req.body.address,
 		postcode: req.body.postcode,
 		mobile: req.body.mobile,
@@ -104,16 +88,18 @@ router.post("/people", (req, res) => {
 		}
 	}
 
+	let formattedBday = formatBirthday(req.body.birthday);
+
 	Person.create({
-			firstName: req.body.firstName,
-			lastName: req.body.lastName,
-			birthday: req.body.birthday,
-			address: req.body.address,
-			postcode: req.body.postcode,
-			mobile: req.body.mobile,
-			homePhone: req.body.homePhone,
-			groups
-		}, (err) => {
+		firstName: req.body.firstName,
+		lastName: req.body.lastName,
+		birthday: formattedBday,
+		address: req.body.address,
+		postcode: req.body.postcode,
+		mobile: req.body.mobile,
+		homePhone: req.body.homePhone,
+		groups
+	}, (err) => {
 		if(err){
 			res.redirect("/error");
 		} else {
@@ -121,5 +107,17 @@ router.post("/people", (req, res) => {
 		}
 	});
 });
+
+function formatBirthday(date){
+	let birthday = new Date(date);
+
+	let day = birthday.getDate();
+	let month = birthday.getMonth() + 1;
+	let year = birthday.getFullYear();
+	if(month < 10) month = `0${month}`;
+	if (day < 10) day = `0${day}`;
+
+	return `${year}-${month}-${day}`;
+}
 
 module.exports = router;

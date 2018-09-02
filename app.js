@@ -34,6 +34,45 @@ app.get("/error", (req, res) => {
 	res.render("error");
 });
 
+app.post("/", (req, res) => {
+
+	let getters = [Person.find({}).populate("groups"), Group.find({})];
+
+	Promise.all(getters)
+	.then(([people, groups]) => {
+		people.forEach(person => {
+			if(person.birthday){
+				let birthday = new Date(person.birthday);
+				let birthdayMillis = birthday.getTime();
+				let now = Date.now();
+
+				let millDifference = now - birthdayMillis;
+
+				let years = (((((millDifference / 1000) / 60) / 60) / 24) /365);
+
+				person.age = Math.floor(years);
+				
+			} else {
+				person.age = "N/A";
+			}
+		});
+
+		// Make sure matches the mongoose schema
+		let categories = {
+			birthday: "Birthday",
+			age: "Age",
+			address: "Address",
+			postcode: "Postcode",
+			mobile: "Mobile",
+			homePhone: "Home Number",
+			groups: "Groups"
+		}
+
+		res.render("index", {people, groups, categories, filter:req.body});
+	});
+	
+});
+
 app.get("/", (req, res) => {
 	let getters = [Person.find({}).populate("groups"), Group.find({})];
 
@@ -54,8 +93,18 @@ app.get("/", (req, res) => {
 			}
 		});
 
+		// Make sure matches the mongoose schema
+		let categories = {
+			birthday: "Birthday",
+			address: "Address",
+			postcode: "Postcode",
+			mobile: "Mobile",
+			homePhone: "Home Number",
+			groups: "Groups"
+		}
 
-		res.render("index", {people, groups});
+
+		res.render("index", {people, groups, categories});
 	}).catch(err => {
 		res.redirect("/error");
 	});
