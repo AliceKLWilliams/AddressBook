@@ -36,17 +36,34 @@
 
 		<% groups.forEach(group => { %>
 			<label>
-				<input type="checkbox" value="<%=group._id%>" name="groups[]">
+				<% if(typeof groupFilter != "undefined" && groupFilter.includes(group._id.toString())) { %> 
+					<input type="checkbox" value="<%=group._id%>" name="groups[]" checked>
+				<% } else { %>
+					<input type="checkbox" value="<%=group._id%>" name="groups[]">
+				<% } %>
 				<%=group.name%>
 			</label>
 		<% }) %>
 
 		<label for="">
-			<input type="radio" name="GroupFilterType" value="all" checked>
+			<% if(typeof groupCondition != "undefined" && groupCondition == "all"){ %>
+				<input type="radio" name="GroupFilterType" value="all" checked>
+			<% } else { %>
+				<% if(typeof groupCondition == "undefined"){ %>
+					<input type="radio" name="GroupFilterType" value="all" checked>
+				<% } else { %>
+					<input type="radio" name="GroupFilterType" value="all">
+				<% } %>
+			<% } %>
 			Contains All
 		</label>
 		<label for="">
-			<input type="radio" name="GroupFilterType" value="some">
+			<% if(typeof groupCondition != "undefined" && groupCondition == "some"){ %>
+				<input type="radio" name="GroupFilterType" value="some" checked>
+			<% } else { %>
+				<input type="radio" name="GroupFilterType" value="some">
+			<% } %>
+			
 			Contains Some
 		</label>
 

@@ -88,7 +88,7 @@ app.post("/", (req, res) => {
 			groups: "Groups"
 		}
 
-		res.render("index", {people: filteredPeople, groups, categories, columns:req.body.columns, groupFilter:req.body.groups});
+		res.render("index", {people: filteredPeople, groups, categories, columns:req.body.columns, groupFilter:req.body.groups, groupCondition: req.body.GroupFilterType});
 	});
 	
 });
