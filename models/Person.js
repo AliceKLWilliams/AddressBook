@@ -5,7 +5,7 @@ let Schema = mongoose.Schema;
 let personSchema = new Schema({
 	firstName:String,
 	lastName:String,
-	birthday: Date,
+	birthday: String,
 	address:String,
 	postcode: String,
 	mobile: String,

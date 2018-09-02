@@ -13,14 +13,38 @@
 		<% }) %>
 	</div>
 
+	<h2>Columns</h2>
+	<p>Choose which columns to display below</p>
+
+	<form action="/" method="POST">
+		<% for (key in categories) { %>
+			<div class="form-check">
+				<% if(typeof filter != "undefined" && filter[key]) { %> 
+					<input type="checkbox" class="form-check-input" name="<%=key%>" checked>
+				<% } else { %>
+					<input type="checkbox" class="form-check-input" name="<%=key%>">
+				<% } %>
+				<label for="<%=key%>" class="form-check-label"><%=categories[key]%></label>
+				
+			</div>
+		<% } %>
+
+		<button class="btn btn-primary">Submit</button>
+	</form>
+
 	<h2>People</h2>
 	<a href="/people/new">Add new Person</a>
 	<table class="table">
 		<thead>
 			<tr>
 				<th>Name</th>
-				<th>Age</th>
-				<th>Groups</th>
+				
+				<% if(typeof filter != "undefined") { %>
+					<% for (key in filter) { %>
+						<th><%= categories[key] %></th>
+					<% } %> 
+				<% } %>
+	
 				<th>Options</th>
 			</tr>
 		</thead>
@@ -28,12 +52,22 @@
 			<% people.forEach(person => { %>
 				<tr>
 					<td><%= person.firstName %> <%= person.lastName%></td>
-					<td><%= person.age %></td>
-					<td>
-						<% person.groups.forEach(group => { %>
-							<span class="badge" style="background-color:<%=group.colour%>;color:<%=group.fontColour%>"><%=group.name%></span>
-						<% }) %>
-					</td>
+
+					<% if (typeof filter != "undefined") { %> 
+						<% for (key in filter) { %>
+							<% if(key == "groups"){ %>
+								<td>
+									<% person.groups.forEach(group => { %>
+										<span class="badge" style="background-color:<%=group.colour%>;color:<%=group.fontColour%>"><%=group.name%></span>
+									<% }) %>
+								</td>
+							<% } else { %>
+								<td><%=person[key] %></td>
+							<% } %>
+
+						<% } %>
+					<% } %>
+
 					<td>
 						<a href="/people/<%= person._id%>">Show</a>
 						<a href="/people/<%= person._id %>/edit">Edit</a>
