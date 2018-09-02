@@ -44,10 +44,18 @@ app.post("/", (req, res) => {
 		let filteredPeople = people;
 		if(req.body.groups){
 
+			let filterType = req.body.GroupFilterType;
+
 
 			filteredPeople = people.filter(person => {
 				let personGroupIds = person.groups.map(group => group._id.toString());
-				return req.body.groups.every(groupID => personGroupIds.includes(groupID));
+
+				if(filterType === "some"){
+					return req.body.groups.some(groupID => personGroupIds.includes(groupID));
+				} else{
+					return req.body.groups.every(groupID => personGroupIds.includes(groupID));
+				}
+
 			});
 		}
 
