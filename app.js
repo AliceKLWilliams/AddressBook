@@ -40,7 +40,27 @@ app.post("/", (req, res) => {
 
 	Promise.all(getters)
 	.then(([people, groups]) => {
-		people.forEach(person => {
+
+		let filteredPeople = people;
+		if(req.body.groups){
+
+			let filterType = req.body.GroupFilterType;
+
+
+			filteredPeople = people.filter(person => {
+				let personGroupIds = person.groups.map(group => group._id.toString());
+
+				if(filterType === "some"){
+					return req.body.groups.some(groupID => personGroupIds.includes(groupID));
+				} else{
+					return req.body.groups.every(groupID => personGroupIds.includes(groupID));
+				}
+
+			});
+		}
+
+
+		filteredPeople.forEach(person => {
 			if(person.birthday){
 				let birthday = new Date(person.birthday);
 				let birthdayMillis = birthday.getTime();
@@ -68,7 +88,7 @@ app.post("/", (req, res) => {
 			groups: "Groups"
 		}
 
-		res.render("index", {people, groups, categories, filter:req.body});
+		res.render("index", {people: filteredPeople, groups, categories, columns:req.body.columns, groupFilter:req.body.groups});
 	});
 	
 });
@@ -96,6 +116,7 @@ app.get("/", (req, res) => {
 		// Make sure matches the mongoose schema
 		let categories = {
 			birthday: "Birthday",
+			age: "Age",
 			address: "Address",
 			postcode: "Postcode",
 			mobile: "Mobile",

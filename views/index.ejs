@@ -13,24 +13,46 @@
 		<% }) %>
 	</div>
 
-	<h2>Columns</h2>
-	<p>Choose which columns to display below</p>
+	<h2>Filters</h2>
 
 	<form action="/" method="POST">
+		<h3>Columns</h3>
+		<p>Choose which columns to display below</p>
 		<% for (key in categories) { %>
-			<div class="form-check">
-				<% if(typeof filter != "undefined" && filter[key]) { %> 
-					<input type="checkbox" class="form-check-input" name="<%=key%>" checked>
+
+			<label for="<%=key%>">
+				<% if(typeof columns != "undefined" && columns.includes(key)) { %> 
+					<input type="checkbox" name="columns[]" value="<%=key%>" checked>
 				<% } else { %>
-					<input type="checkbox" class="form-check-input" name="<%=key%>">
+					<input type="checkbox" name="columns[]" value="<%=key%>" >
 				<% } %>
-				<label for="<%=key%>" class="form-check-label"><%=categories[key]%></label>
-				
-			</div>
+				<%=categories[key]%>
+			</label>
+
 		<% } %>
+		
+		<h3>Filter Groups</h3>
+		<p>Choose which groups to see</p>
+
+		<% groups.forEach(group => { %>
+			<label>
+				<input type="checkbox" value="<%=group._id%>" name="groups[]">
+				<%=group.name%>
+			</label>
+		<% }) %>
+
+		<label for="">
+			<input type="radio" name="GroupFilterType" value="all" checked>
+			Contains All
+		</label>
+		<label for="">
+			<input type="radio" name="GroupFilterType" value="some">
+			Contains Some
+		</label>
 
 		<button class="btn btn-primary">Submit</button>
 	</form>
+	
 
 	<h2>People</h2>
 	<a href="/people/new">Add new Person</a>
@@ -38,11 +60,11 @@
 		<thead>
 			<tr>
 				<th>Name</th>
-				
-				<% if(typeof filter != "undefined") { %>
-					<% for (key in filter) { %>
+
+				<% if(typeof columns != "undefined") { %>
+					<% columns.forEach(key => { %>
 						<th><%= categories[key] %></th>
-					<% } %> 
+					<% }); %>
 				<% } %>
 	
 				<th>Options</th>
@@ -53,8 +75,8 @@
 				<tr>
 					<td><%= person.firstName %> <%= person.lastName%></td>
 
-					<% if (typeof filter != "undefined") { %> 
-						<% for (key in filter) { %>
+					<% if (typeof columns != "undefined") { %> 
+						<% columns.forEach(key => { %>
 							<% if(key == "groups"){ %>
 								<td>
 									<% person.groups.forEach(group => { %>
@@ -65,7 +87,7 @@
 								<td><%=person[key] %></td>
 							<% } %>
 
-						<% } %>
+						<% }); %>
 					<% } %>
 
 					<td>
