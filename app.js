@@ -36,6 +36,8 @@ app.get("/error", (req, res) => {
 
 app.post("/", (req, res) => {
 
+	
+
 	let getters = [Person.find({}).populate("groups"), Group.find({})];
 
 	Promise.all(getters)
@@ -68,7 +70,7 @@ app.post("/", (req, res) => {
 			groups: "Groups"
 		}
 
-		res.render("index", {people, groups, categories, filter:req.body});
+		res.render("index", {people, groups, categories, columns:req.body.columns, groupFilter:req.body.groups});
 	});
 	
 });
