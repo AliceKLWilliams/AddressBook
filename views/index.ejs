@@ -15,16 +15,16 @@
 
 	<h2>Filters</h2>
 
-	<form action="/" method="POST">
+	<form action="/" method="GET">
 		<h3>Columns</h3>
 		<p>Choose which columns to display below</p>
 		<% for (key in categories) { %>
 
 			<label for="<%=key%>">
 				<% if(typeof columns != "undefined" && columns.includes(key)) { %> 
-					<input type="checkbox" name="columns[]" value="<%=key%>" checked>
+					<input type="checkbox" name="<%=key%>" value="<%=key%>" checked>
 				<% } else { %>
-					<input type="checkbox" name="columns[]" value="<%=key%>" >
+					<input type="checkbox" name="<%=key%>" value="<%=key%>" >
 				<% } %>
 				<%=categories[key]%>
 			</label>
@@ -37,9 +37,9 @@
 		<% groups.forEach(group => { %>
 			<label>
 				<% if(typeof groupFilter != "undefined" && groupFilter.includes(group._id.toString())) { %> 
-					<input type="checkbox" value="<%=group._id%>" name="groups[]" checked>
+					<input type="checkbox" value="<%=group._id%>" name="filterGroups" checked>
 				<% } else { %>
-					<input type="checkbox" value="<%=group._id%>" name="groups[]">
+					<input type="checkbox" value="<%=group._id%>" name="filterGroups">
 				<% } %>
 				<%=group.name%>
 			</label>
@@ -47,21 +47,21 @@
 
 		<label for="">
 			<% if(typeof groupCondition != "undefined" && groupCondition == "all"){ %>
-				<input type="radio" name="GroupFilterType" value="all" checked>
+				<input type="radio" name="groupFilter" value="all" checked>
 			<% } else { %>
 				<% if(typeof groupCondition == "undefined"){ %>
-					<input type="radio" name="GroupFilterType" value="all" checked>
+					<input type="radio" name="groupFilter" value="all" checked>
 				<% } else { %>
-					<input type="radio" name="GroupFilterType" value="all">
+					<input type="radio" name="groupFilter" value="all">
 				<% } %>
 			<% } %>
 			Contains All
 		</label>
 		<label for="">
 			<% if(typeof groupCondition != "undefined" && groupCondition == "some"){ %>
-				<input type="radio" name="GroupFilterType" value="some" checked>
+				<input type="radio" name="groupFilter" value="some" checked>
 			<% } else { %>
-				<input type="radio" name="GroupFilterType" value="some">
+				<input type="radio" name="groupFilter" value="some">
 			<% } %>
 			
 			Contains Some
@@ -91,9 +91,8 @@
 			<% people.forEach(person => { %>
 				<tr>
 					<td><%= person.firstName %> <%= person.lastName%></td>
-
-					<% if (typeof columns != "undefined") { %> 
-						<% columns.forEach(key => { %>
+					<% if (typeof columns != "undefined") { %>
+						<% columns.forEach(key => {  %> 
 							<% if(key == "groups"){ %>
 								<td>
 									<% person.groups.forEach(group => { %>

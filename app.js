@@ -4,6 +4,8 @@ let app = express();
 let bodyParser = require("body-parser");
 let methodOverride = require("method-override");
 
+let url = require("url");
+
 let mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/AddressBook", {useNewUrlParser: true});
 
@@ -34,61 +36,59 @@ app.get("/error", (req, res) => {
 	res.render("error");
 });
 
-app.post("/", (req, res) => {
+// Make sure matches the mongoose schema
+const categories = {
+	birthday: "Birthday",
+	age: "Age",
+	address: "Address",
+	postcode: "Postcode",
+	mobile: "Mobile",
+	homePhone: "Home Number",
+	groups: "Groups"
+}
 
-	let getters = [Person.find({}).populate("groups"), Group.find({})];
+app.get("/", (req, res) => {
 
-	Promise.all(getters)
+	let queryData = url.parse(req.url, true).query;
+	let getterPromises = [Person.find({}).populate("groups"), Group.find({})];
+
+	Promise.all(getterPromises)
 	.then(([people, groups]) => {
-
 		let filteredPeople = people;
-		if(req.body.groups){
-
-			let filterType = req.body.GroupFilterType;
-
+		// Filter for Group
+		if(queryData["filterGroups"]){ // If we have selected groups
+			let filterType = queryData["groupFilter"];
 
 			filteredPeople = people.filter(person => {
 				let personGroupIds = person.groups.map(group => group._id.toString());
-
 				if(filterType === "some"){
-					return req.body.groups.some(groupID => personGroupIds.includes(groupID));
+					return [...queryData["filterGroups"]].some(groupID => personGroupIds.includes(groupID));
 				} else{
-					return req.body.groups.every(groupID => personGroupIds.includes(groupID));
+					return [...queryData["filterGroups"]].every(groupID => personGroupIds.includes(groupID));
 				}
 
 			});
 		}
 
+		// Set Ages
+		filteredPeople.forEach(person => setAge(person));
 
-		filteredPeople.forEach(person => {
-			if(person.birthday){
-				let birthday = new Date(person.birthday);
-				let birthdayMillis = birthday.getTime();
-				let now = Date.now();
-
-				let millDifference = now - birthdayMillis;
-
-				let years = (((((millDifference / 1000) / 60) / 60) / 24) /365);
-
-				person.age = Math.floor(years);
-				
-			} else {
-				person.age = "N/A";
+		// Find Table Columns
+		let tableColumns = [];
+		for(key in queryData){
+			if(categories.hasOwnProperty(key)){
+				tableColumns.push(queryData[key]);
 			}
-		});
-
-		// Make sure matches the mongoose schema
-		let categories = {
-			birthday: "Birthday",
-			age: "Age",
-			address: "Address",
-			postcode: "Postcode",
-			mobile: "Mobile",
-			homePhone: "Home Number",
-			groups: "Groups"
 		}
 
-		res.render("index", {people: filteredPeople, groups, categories, columns:req.body.columns, groupFilter:req.body.groups, groupCondition: req.body.GroupFilterType});
+		res.render("index", {
+			people: filteredPeople, 
+			groups, 
+			categories, 
+			columns:tableColumns,
+			groupFilter:queryData["filterGroups"], 
+			groupCondition: queryData["groupFilter"]
+		});
 	});
 	
 });
@@ -98,37 +98,27 @@ app.get("/", (req, res) => {
 
 	Promise.all(getters)
 	.then(([people, groups]) => {
-		people.forEach(person => {
-			if(person.birthday){
-				let birthday = new Date(person.birthday).getTime();
-				let now = Date.now();
-
-				let millDifference = now - birthday;
-
-				let years = (((((millDifference / 1000) / 60) / 60) / 24) /365);
-
-				person.age = Math.floor(years);
-			} else {
-				person.age = "N/A";
-			}
-		});
-
-		// Make sure matches the mongoose schema
-		let categories = {
-			birthday: "Birthday",
-			age: "Age",
-			address: "Address",
-			postcode: "Postcode",
-			mobile: "Mobile",
-			homePhone: "Home Number",
-			groups: "Groups"
-		}
-
+		people.forEach(person => setAge(person));
 
 		res.render("index", {people, groups, categories});
 	}).catch(err => {
 		res.redirect("/error");
 	});
 });
+
+function setAge(person){
+	if(person.birthday){
+		let birthday = new Date(person.birthday).getTime();
+		let now = Date.now();
+
+		let millDifference = now - birthday;
+
+		let years = (((((millDifference / 1000) / 60) / 60) / 24) /365);
+
+		person.age = Math.floor(years);
+	} else {
+		person.age = "N/A";
+	}
+}
 
 app.listen(3000);
