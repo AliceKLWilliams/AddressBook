@@ -1,0 +1,50 @@
+
+.people{
+	&__header{
+		background-color: #8748DB;
+		color:white;
+	}
+}
+
+.person{
+	&:nth-child(2n+1){
+		background-color: lighten(#8748DB,40%);
+	}
+
+	&__action{
+		&::after{
+			content: " | "
+		}
+	}
+
+	&__actions *{
+		visibility: hidden;
+	}
+
+	&:hover{
+		.person__actions * {
+			visibility: visible;
+		}
+	}
+
+	vertical-align: top;
+}
+
+
+.table{
+	width:100%;
+	text-align: left;
+
+	border-collapse: collapse;
+}
+
+td{
+	padding:30px 15px;
+}
+
+
+th{
+	padding:10px 10px;
+	font-weight: normal;
+	font-size:22px;
+}

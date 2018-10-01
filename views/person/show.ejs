@@ -1,11 +1,16 @@
 <% include ../partials/header %>
 
-<div class="container">
-	<h1><%= person.firstName%> <%= person.lastName%></h1>
-	<p><%= person.address %></p>
-	<p><%= person.postcode %></p>
-	<p><%= person.mobile %></p>
-	<p><%= person.homePhone %></p>
+<div class="container card">
+	<div class="card__header">
+		<h1><%= person.firstName%> <%= person.lastName%></h1>
+	</div>
+
+	<div class="card__content">
+		<p>Address: <%= person.address %></p>
+		<p>Postcode: <%= person.postcode %></p>
+		<p>Mobile: <%= person.mobile %></p>
+		<p>Home No: <%= person.homePhone %></p>
+	</div>
 </div>
 
 <% include ../partials/footer %>

@@ -1,0 +1,53 @@
+
+.groups{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+
+	flex-wrap: wrap;
+
+	&__header{
+		background-color: #5353DD;
+		color:white;
+	}
+}
+
+
+.group{
+	padding:8px 40px;
+	border-radius: 20px;
+
+	margin-right:20px;
+	position: relative;
+
+	&__name{
+		display: inline;
+	}
+
+	&__options{
+		position: absolute;
+
+		left:50%;
+		top:50%;
+		transform: translate(-50%, -50%);
+
+		display: none;
+	}
+
+	&__option{
+		display: inline-block;
+		color:inherit;
+
+		margin:0px 5px;
+	}
+
+	&:hover{
+		.group__options{
+			display: block;
+		}
+		.group__name{
+			visibility: hidden;
+		}
+	}
+
+}

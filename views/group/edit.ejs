@@ -1,10 +1,13 @@
 <% include ../partials/header %>
 
-<div class="container">
-	<h1>Edit Group</h1>
+<div class="container card">
+
+	<div class="card__header">
+		<h1>Edit Group</h1>
+	</div>
 
 
-	<form action="/group/<%=group._id%>?_method=PUT" method="post">
+	<form action="/group/<%=group._id%>?_method=PUT" method="post" class="card__content">
 		<div class="form__group">
 			<label for="name">Group Name</label>
 			<input type="text" name="name" class="form-control" value="<%=group.name%>">
@@ -15,41 +18,9 @@
 			<input type="color" name="colour" class="form-control" value="<%=group.colour%>">
 		</div>
 
-		<button class="btn btn-primary">Submit</button>
-		<button type="button" class="btn btn-link" data-toggle="modal" data-target="#deleteModal">
-			Delete Group
-		</button>
+		<button class="btn btn-primary">Edit</button>
 	</form>
 
-</div>
-
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="deleteModalLabel">Delete Group</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				Would you like to delete all members of this Group?
-			</div>
-			<div class="modal-footer">
-				<form action="/group/<%=group._id%>?_method=DELETE" method="POST">
-					<button class="btn btn-danger">
-						No
-					</button>
-				</form>
-				<form action="/group/<%=group._id%>?_method=DELETE&deleteMembers=true" method="POST">
-					<button class="btn btn-danger">
-						Yes
-					</button>
-				</form>
-
-			</div>
-		</div>
-	</div>
 </div>
 
 <script type="text/javascript" src="deleteGroupModal.js"></script>

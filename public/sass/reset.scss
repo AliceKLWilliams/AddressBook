@@ -1,0 +1,35 @@
+
+html, body{
+	margin:0;
+	padding:0;
+
+	font-family: $font;
+
+	position: relative;
+
+	background-color:#f3f8fc;
+}
+
+*{
+	box-sizing: border-box;
+}
+
+h1,h2,h3{
+	line-height: 0;
+}
+
+
+button{
+	font-size:16px;
+	background-color: transparent;
+	border:none;
+	cursor:pointer;
+	font-weight: normal;
+
+	font-family: $font;
+}
+
+a{
+	text-decoration: none;
+}
+

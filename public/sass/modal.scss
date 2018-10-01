@@ -1,0 +1,44 @@
+
+.dialog{
+	position: absolute;
+
+	top:20px;
+
+	border:none;
+	padding:0;
+
+	width:40%;
+
+	z-index:3;
+
+	&__header{
+		background-color: $primary;
+		color:white;
+		padding:5px 15px;
+
+		display:flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	&__close{
+		font-size:20px;
+		color:white;
+	}
+
+	&__content{
+		padding:5px 15px;
+
+		color:$grey;
+	}
+
+	&__options{
+		display:flex;
+		justify-content: flex-end;
+		padding:20px 15px;
+	}
+
+	&__btn{
+		margin-right: 15px;
+	}
+}

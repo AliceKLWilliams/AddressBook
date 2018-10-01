@@ -1,9 +1,11 @@
 <% include ../partials/header %>
 
-<div class="container">
-	<h1>Edit <%= person.name %></h1>
+<div class="container card">
+	<div class="card__header">
+		<h1>Edit <%= person.name %></h1>
+	</div>
 
-	<form action="/people/<%=person._id%>?_method=PUT" method="POST">
+	<form action="/people/<%=person._id%>?_method=PUT" method="POST" class="card__content">
 		<div class="form__group">
 			<label for="firstName">First Name</label>
 			<input type="text" class="form-control" name="firstName" value="<%=person.firstName%>">
@@ -39,21 +41,25 @@
 			<input type="text" class="form-control" name="homePhone" value="<%=person.homePhone%>">
 		</div>
 
-		<h2>Groups</h2>
+		<h2 class="form__sub">Groups</h2>
 		
-		<% groups.forEach(group => { %>
-			<div class="form-check form-check-inline">
-				<% let stringGroups = person.groups.map(groupID => groupID.toString());%>
-				<% if(stringGroups.includes(group._id.toString())) { %>
-					<input type="checkbox" class="form-check-input" name="group-<%=group._id%>" checked>
-				<% } else { %>
-					<input type="checkbox" class="form-check-input" name="group-<%=group._id%>">
-				<% } %>
-				<label for="group-<%=group._id%>" class="form-check-label"><%=group.name%></label>
-			</div>
-		<% }); %>
+		<div class="form__groups">
+			<% groups.forEach(group => { %>
+				<label for="group-<%=group._id%>" class="option">
+					<% let stringGroups = person.groups.map(groupID => groupID.toString());%>
+					<% if(stringGroups.includes(group._id.toString())) { %>
+						<input type="checkbox" id="group-<%=group._id%>" name="group-<%=group._id%>" checked>
+					<% } else { %>
+						<input type="checkbox" id="group-<%=group._id%>" name="group-<%=group._id%>">
+					<% } %>
+					<%=group.name%>
+					<span class="checkbox"><i class="fas fa-check checkbox__tick"></i></span>
+					
+				</label>
+			<% }); %>
+		</div>
 
-		<button class="btn btn-primary">Edit</button>
+		<button class="btn btn-primary submit">Edit</button>
 	</form>
 </div>
 

@@ -1,125 +1,197 @@
 <% include partials/header %>
 
-<div class="container">
+<nav class="nav">
+	<h1 class="logo">Address Book</h1>
+	<div class="nav__group">
+		<h2 class="nav__title">Filters</h2>
+		<form action="/" method="GET">
+			<div class="filter">
+				<div class="filter__header">
+					<h3 class="filter__title">Columns</h3>
+					<i class="fas fa-angle-down"></i>
+				</div>
+				<div class="filter__options">
+					<% for (key in categories) { %>
+					<label for="<%=key%>" class="option">
+						<%=categories[key]%>
+						<% if(typeof columns != "undefined" && columns.includes(key)) { %>
+						<input type="checkbox" id="<%=key%>" name="<%=key%>" value="<%=key%>" checked>
+						<% } else { %>
+						<input type="checkbox" id="<%=key%>" name="<%=key%>" value="<%=key%>">
+						<% } %>
+						<span class="checkbox"><i class="fas fa-check checkbox__tick"></i></span>
+					</label>
+					<% } %>
+				</div>
+			</div>
+			<div class="filter">
+				<div class="filter__header">
+					<h3 class="filter__title">Groups</h3>
+					<i class="fas fa-angle-down"></i>
+				</div>
 
-	<h1>Address Book</h1>
-
-
-	<h2>Groups</h2>
-	<a href="/group/new">Add new Group</a>
-	<div class="groups">
-		<% groups.forEach(group => { %>
-			<p class="group" style="background-color:<%=group.colour%>;color:<%=group.fontColour%>"><%=group.name%> <a class="group__icon" href="/group/<%=group._id%>/edit"><i class="fa fa-pen"></i></a></p>
-		<% }) %>
-	</div>
-
-	<h2>Filters</h2>
-
-	<form action="/" method="GET">
-		<h3>Columns</h3>
-		<p>Choose which columns to display below</p>
-		<% for (key in categories) { %>
-
-			<label for="<%=key%>">
-				<% if(typeof columns != "undefined" && columns.includes(key)) { %> 
-					<input type="checkbox" name="<%=key%>" value="<%=key%>" checked>
-				<% } else { %>
-					<input type="checkbox" name="<%=key%>" value="<%=key%>" >
-				<% } %>
-				<%=categories[key]%>
-			</label>
-
-		<% } %>
-		
-		<h3>Filter Groups</h3>
-		<p>Choose which groups to see</p>
-
-		<% groups.forEach(group => { %>
-			<label>
-				<% if(typeof groupFilter != "undefined" && groupFilter.includes(group._id.toString())) { %> 
-					<input type="checkbox" value="<%=group._id%>" name="filterGroups" checked>
-				<% } else { %>
-					<input type="checkbox" value="<%=group._id%>" name="filterGroups">
-				<% } %>
-				<%=group.name%>
-			</label>
-		<% }) %>
-
-		<label for="">
-			<% if(typeof groupCondition != "undefined" && groupCondition == "all"){ %>
-				<input type="radio" name="groupFilter" value="all" checked>
-			<% } else { %>
-				<% if(typeof groupCondition == "undefined"){ %>
-					<input type="radio" name="groupFilter" value="all" checked>
-				<% } else { %>
-					<input type="radio" name="groupFilter" value="all">
-				<% } %>
-			<% } %>
-			Contains All
-		</label>
-		<label for="">
-			<% if(typeof groupCondition != "undefined" && groupCondition == "some"){ %>
-				<input type="radio" name="groupFilter" value="some" checked>
-			<% } else { %>
-				<input type="radio" name="groupFilter" value="some">
-			<% } %>
-			
-			Contains Some
-		</label>
-
-		<button class="btn btn-primary" type="submit">Submit</button>
-		<a class="btn btn-danger reset-form" href="/">Reset</a>
-	</form>
-	
-
-	<h2>People</h2>
-	<a href="/people/new">Add new Person</a>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Name</th>
-
-				<% if(typeof columns != "undefined") { %>
-					<% columns.forEach(key => { %>
-						<th><%= categories[key] %></th>
-					<% }); %>
-				<% } %>
-	
-				<th>Options</th>
-			</tr>
-		</thead>
-		<tbody>
-			<% people.forEach(person => { %>
-				<tr>
-					<td><%= person.firstName %> <%= person.lastName%></td>
-					<% if (typeof columns != "undefined") { %>
-						<% columns.forEach(key => {  %> 
-							<% if(key == "groups"){ %>
-								<td>
-									<% person.groups.forEach(group => { %>
-										<span class="badge" style="background-color:<%=group.colour%>;color:<%=group.fontColour%>"><%=group.name%></span>
-									<% }) %>
-								</td>
+				<div class="filter__options">
+					<div class="filter__groups">
+						<% groups.forEach(group => { %>
+						<label class="option" for="<%=group._id%>">
+							<%=group.name%>
+							<% if(typeof groupFilter != "undefined" && groupFilter.includes(group._id.toString())) { %>
+							<input id="<%=group._id%>" type="checkbox" value="<%=group._id%>" name="filterGroups" checked>
 							<% } else { %>
-								<td><%=person[key] %></td>
+							<input id="<%=group._id%>" type="checkbox" value="<%=group._id%>" name="filterGroups">
 							<% } %>
+							<span class="checkbox"><i class="fas fa-check checkbox__tick"></i></span>
+						</label>
+						<% }) %>
+					</div>
+
+					<label for="all" class="option">
+						<% if(typeof groupCondition != "undefined" && groupCondition == "all"){ %>
+						<input type="radio" name="groupFilter" value="all" id="all" checked>
+						<% } else { %>
+						<% if(typeof groupCondition == "undefined"){ %>
+						<input type="radio" name="groupFilter" value="all" id="all" checked>
+						<% } else { %>
+						<input type="radio" name="groupFilter" value="all" id="all">
+						<% } %>
+						<% } %>
+						Contains All
+						<span class="radio"><i class="fas fa-check radio__tick"></i></span>
+					</label>
+					<label for="some" class="option">
+						<% if(typeof groupCondition != "undefined" && groupCondition == "some"){ %>
+						<input type="radio" name="groupFilter" value="some" id="some" checked>
+						<% } else { %>
+						<input type="radio" name="groupFilter" value="some" id="some">
+						<% } %>
+						Contains Some
+						<span class="radio"><i class="fas fa-check radio__tick"></i></span>
+					</label>
+				</div>
+			</div>
+			<div class="filter__btns">
+				<button class="btn filter__btn" type="submit">Filter</button>
+			</div>
+		</form>
+	</div>
+</nav>
+
+<main>
+
+
+	<section class="card">
+		<div class="card__header groups__header">
+			<h2>Groups</h2>
+			<a class="btn btn--light" href="/group/new">Add Group</a>
+		</div>
+		<div class="card__content groups groups--row">
+			<% groups.forEach(group => { %>
+			<div class="group" style="border: 2px solid <%=group.colour%>;" data-group="<%=group._id%>">
+				<p class="group__name">
+					<%=group.name%>
+				</p>
+
+				<div class="group__options">
+					<a href="/group/<%=group._id%>/edit" class="group__option"><i class="fa fa-pencil-alt"></i></a>
+					<button href="/group/<%=group._id%>/edit" class="btn btn--link group__option delete-group"><i class="fa fa-trash"></i></a>
+				</div>
+			</div>
+			<% }) %>
+			
+		</div>
+	</section>
+
+	<section class="people card">
+		<div class="card__header people__header">
+			<h2>People</h2>
+			<a class="btn btn--light" href="/people/new">Add Person</a>
+		</div>
+		<div class="card__content">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Name</th>
+
+						<% if(typeof columns != "undefined") { %>
+						<% columns.forEach(key => { %>
+						<th>
+							<%= categories[key] %>
+						</th>
+						<% }); %>
+						<% } %>
+
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<% people.forEach(person => { %>
+					<tr class="person">
+						<td>
+							<%= person.firstName %>
+							<%= person.lastName%>
+						</td>
+						<% if (typeof columns != "undefined") { %>
+						<% columns.forEach(key => {  %>
+						<% if(key == "groups"){ %>
+						<td>
+							<div class="groups">
+								<% person.groups.forEach(group => { %>
+								<span class="group" style="border: 2px solid <%=group.colour%>;">
+									<%=group.name%></span>
+								<% }) %>
+							</div>
+						</td>
+						<% } else { %>
+						<td>
+							<%=person[key] %>
+						</td>
+						<% } %>
 
 						<% }); %>
-					<% } %>
+						<% } %>
 
-					<td>
-						<a href="/people/<%= person._id%>">Show</a>
-						<a href="/people/<%= person._id %>/edit">Edit</a>
-						<form action="/people/<%=person._id%>?_method=DELETE" method="POST">
-							<button class="btn btn-link">Delete</button>
-						</form>
-					</td>
-				</tr>
-			<% }) %>
-		</tbody>
-	</table>
+						<td class="person__actions">
+							<a href="/people/<%= person._id%>" class="person__action btn btn--link">View</a>
+							<a href="/people/<%= person._id %>/edit" class="person__action btn btn--link">Edit</a>
+							<form action="/people/<%=person._id%>?_method=DELETE" method="POST" class="inline">
+								<button class="btn btn--link" class="person__action">Delete</button>
+							</form>
+						</td>
+					</tr>
+					<% }) %>
+				</tbody>
+			</table>
 
-</div>
+		</div>
+	</section>
+</main>
 
+<dialog class="dialog">
+	<div class="dialog__header">
+		<h1>Delete Group</h1>
+		<button class=" dialog__close">
+			<i class="fa fa-times"></i>
+		</button>
+	</div>
+
+	<div class="dialog__content">
+		<p>Do you wish to delete all persons associated to this group?</p>
+	</div>
+
+	<div class="dialog__options">
+		<form method="POST " class="form-inline">
+			<button class="btn btn--secondary dialog__btn">
+				No
+			</button>
+		</form>
+		<form method="POST" class="form-inline">
+			<button class="btn btn-danger dialog__btn">
+				Yes
+			</button>
+		</form>
+	</div>
+</dialog>
+
+<div class="overlay"></div>
 
 <% include partials/footer %>
