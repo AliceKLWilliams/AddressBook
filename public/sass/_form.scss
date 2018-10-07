@@ -86,38 +86,10 @@ textarea{
 }
 
 .checkbox{
-	width:2rem;
-	height:2rem;
-
-	display: inline-flex;
-	align-items:center;
-	justify-content: center;
-
-	border:0.2rem solid $primary;
-
-	&__tick{
-		display:none;
-		color:$primary;
-
-		font-size:1rem;
-	}
+	@include choice;	
 }
 
 .radio{
-	width:2rem;
-	height:2rem;
-
-	display: inline-flex;
-	align-items:center;
-	justify-content: center;
-
+	@include choice;
 	border-radius: 3rem;
-	border:0.2rem solid $primary;
-
-	&__tick{
-		display:none;
-		color:$primary;
-
-		font-size:1rem;
-	}
 }

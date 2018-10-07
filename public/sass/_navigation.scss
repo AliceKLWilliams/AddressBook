@@ -34,7 +34,7 @@
 	padding:0.8rem 2rem;
 
 	&:hover{
-		background-color: #fafafa;
+		background-color: $white;
 	}
 
 
@@ -76,7 +76,7 @@
 	$this: &;
 
 	&--open{
-		background-color: #fafafa;
+		background-color: $white;
 		#{$this}__options{
 			display:block;
 		}

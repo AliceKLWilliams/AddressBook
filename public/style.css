@@ -37,10 +37,7 @@ h3 {
 h4 {
   font-size: 1.3rem; }
 
-p {
-  font-size: 1.6rem; }
-
-td {
+p, td, label {
   font-size: 1.6rem; }
 
 .form__group {
@@ -120,8 +117,8 @@ textarea {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 3rem;
-  border: 0.2rem solid #5353DD; }
+  border: 0.2rem solid #5353DD;
+  border-radius: 3rem; }
   .radio__tick {
     display: none;
     color: #5353DD;
@@ -181,7 +178,7 @@ textarea {
 
 .btn {
   background-color: #5353DD;
-  color: white;
+  color: #fafafa;
   display: inline-block;
   border-radius: 0.5rem;
   box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.12), 0 0.1rem 0.2rem rgba(0, 0, 0, 0.24);
@@ -189,7 +186,7 @@ textarea {
   text-transform: uppercase;
   font-size: 1.4rem; }
   .btn--light {
-    background: white;
+    background: #fafafa;
     color: #5353DD; }
   .btn--secondary {
     background-color: #FFD044; }
@@ -265,7 +262,7 @@ th {
   flex-wrap: wrap; }
   .groups__header {
     background-color: #5353DD;
-    color: white; }
+    color: #fafafa; }
 
 .group {
   padding: 0.8rem 4rem;
@@ -296,7 +293,7 @@ main {
   padding-top: 5rem; }
 
 .card {
-  background-color: white;
+  background-color: #fafafa;
   border: 0.1rem solid #e3e3e3;
   margin-bottom: 5rem; }
   .card__header {
@@ -326,8 +323,5 @@ main {
 .container {
   width: 40%;
   margin: 4rem auto; }
-
-.title {
-  text-align: center; }
 
 /*# sourceMappingURL=style.css.map */
