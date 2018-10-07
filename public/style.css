@@ -130,17 +130,19 @@ textarea {
 .nav {
   background-color: #fff;
   color: #878787;
-  width: 30rem;
-  position: absolute;
-  left: 0;
-  top: 0;
-  min-height: 100vh;
   padding: 4rem 0rem; }
   .nav__title {
     padding: 0rem 2rem;
     font-size: 1.4rem;
     font-weight: normal;
     text-transform: uppercase; }
+  @media screen and (min-width: 768px) {
+    .nav {
+      width: 30rem;
+      position: absolute;
+      left: 0;
+      top: 0;
+      min-height: 100vh; } }
 
 .logo {
   display: inline-block;
@@ -298,10 +300,14 @@ th {
     visibility: hidden; }
 
 main {
-  margin-left: 30rem;
-  padding-left: 4rem;
-  max-width: calc(100vw - 38rem);
-  padding-top: 5rem; }
+  width: 80%;
+  margin: 4rem auto; }
+  @media screen and (min-width: 768px) {
+    main {
+      margin-left: 30rem;
+      padding-left: 4rem;
+      padding-top: 5rem;
+      max-width: calc(100vw - 38rem); } }
 
 .card {
   background-color: #fafafa;
@@ -309,6 +315,7 @@ main {
   margin-bottom: 5rem; }
   .card__header {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     background-color: #5353DD;
@@ -332,7 +339,10 @@ main {
   display: none; }
 
 .container {
-  width: 40%;
-  margin: 4rem auto; }
+  margin: 4rem auto;
+  width: 80%; }
+  @media screen and (min-width: 768px) {
+    .container {
+      width: 40%; } }
 
 /*# sourceMappingURL=style.css.map */
