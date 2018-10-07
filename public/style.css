@@ -206,8 +206,14 @@ textarea {
   top: 3rem;
   border: none;
   padding: 0;
+  background-color: #fafafa;
   width: 40%;
-  z-index: 3; }
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: none; }
+  .dialog--show {
+    display: block; }
   .dialog__header {
     background-color: #5353DD;
     color: #fafafa;
@@ -215,7 +221,7 @@ textarea {
     display: flex;
     justify-content: space-between;
     align-items: center; }
-  .dialog__close {
+  .dialog__cross {
     font-size: 2rem;
     color: #fafafa; }
   .dialog__content {

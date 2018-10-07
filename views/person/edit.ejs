@@ -43,23 +43,26 @@
 			<input type="text" class="form-control" name="homePhone" value="<%=person.homePhone%>">
 		</div>
 
-		<h2 class="form__sub">Groups</h2>
-		
-		<div class="form__groups">
-			<% groups.forEach(group => { %>
-				<label for="group-<%=group._id%>" class="option">
-					<% let stringGroups = person.groups.map(groupID => groupID.toString());%>
-					<% if(stringGroups.includes(group._id.toString())) { %>
-						<input type="checkbox" id="group-<%=group._id%>" name="group-<%=group._id%>" checked>
-					<% } else { %>
-						<input type="checkbox" id="group-<%=group._id%>" name="group-<%=group._id%>">
-					<% } %>
-					<%=group.name%>
-					<span class="checkbox"><i class="fas fa-check checkbox__tick"></i></span>
-					
-				</label>
-			<% }); %>
-		</div>
+
+		<% if (groups.length != 0) { %>
+			<h2 class="form__sub">Groups</h2>
+			
+			<div class="form__groups">
+				<% groups.forEach(group => { %>
+					<label for="group-<%=group._id%>" class="option">
+						<% let stringGroups = person.groups.map(groupID => groupID.toString());%>
+						<% if(stringGroups.includes(group._id.toString())) { %>
+							<input type="checkbox" id="group-<%=group._id%>" name="group-<%=group._id%>" checked>
+						<% } else { %>
+							<input type="checkbox" id="group-<%=group._id%>" name="group-<%=group._id%>">
+						<% } %>
+						<%=group.name%>
+						<span class="checkbox"><i class="fas fa-check checkbox__tick"></i></span>
+						
+					</label>
+				<% }); %>
+			</div>
+		<% } %>
 
 		<button class="btn btn-primary submit">Edit</button>
 	</form>

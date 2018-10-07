@@ -8,9 +8,19 @@
 	border:none;
 	padding:0;
 
+	background-color: $white;
+
 	width:40%;
+	left:50%;
+	transform:translateX(-50%);
 
 	z-index:3;
+
+	display: none;
+
+	&--show{
+		display: block;
+	}
 
 	&__header{
 		background-color: $primary;
@@ -22,7 +32,7 @@
 		align-items: center;
 	}
 
-	&__close{
+	&__cross{
 		font-size:2rem;
 		color:$white;
 	}
