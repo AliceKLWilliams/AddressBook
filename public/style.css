@@ -25,6 +25,10 @@ button {
 a {
   text-decoration: none; }
 
+p {
+  margin-block-end: 0;
+  margin-block-start: 0; }
+
 h1 {
   font-size: 3.1rem; }
 
@@ -212,7 +216,7 @@ textarea {
   border: none;
   padding: 0;
   background-color: #fafafa;
-  width: 40%;
+  width: 80%;
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
@@ -238,21 +242,49 @@ textarea {
     padding: 2rem 1.5rem; }
   .dialog__btn {
     margin-right: 1.5rem; }
+  @media screen and (min-width: 768px) {
+    .dialog {
+      width: 40%; } }
 
 .people__header {
   background-color: #8748DB;
   color: #fafafa; }
+.people__other {
+  display: none; }
+@media screen and (min-width: 768px) {
+  .people__other {
+    display: table-cell; } }
 
 .person {
   vertical-align: top; }
   .person:nth-child(2n+1) {
     background-color: #f7f2fd; }
+  .person--open .person__dropdown {
+    display: block; }
+  .person--open .person__down i {
+    transform: rotate(180deg); }
   .person__action::after {
     content: " | "; }
   .person__actions * {
     visibility: hidden; }
+  .person__dropdown {
+    display: none;
+    margin-top: 3rem; }
+  .person__category {
+    text-transform: uppercase;
+    font-size: 1.4rem;
+    color: #878787; }
+  .person__attr {
+    margin-bottom: 1rem; }
   .person:hover .person__actions * {
     visibility: visible; }
+  .person__down {
+    color: #5353DD; }
+    .person__down i {
+      transition: transform 0.3s; }
+  @media screen and (min-width: 768px) {
+    .person__down {
+      display: none; } }
 
 .table {
   width: 100%;

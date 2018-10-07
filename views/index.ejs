@@ -114,7 +114,7 @@
 
 						<% if(typeof columns != "undefined") { %>
 						<% columns.forEach(key => { %>
-						<th>
+						<th class="people__other">
 							<%= categories[key] %>
 						</th>
 						<% }); %>
@@ -127,13 +127,43 @@
 					<% people.forEach(person => { %>
 					<tr class="person">
 						<td>
+							<% if (columns.length) { %>
+								<button class="person__down"><i class="fas fa-angle-down"></i></button>
+							<% } %>
 							<%= person.firstName %>
 							<%= person.lastName%>
+
+							<% if (columns.length) { %>
+							<div class="person__dropdown">
+								<% columns.forEach(key => {  %>
+								<div class="person__attr">
+									<% if(key == "groups"){ %>
+										<p class="person__category"><%=categories[key]%></p>
+										<div class="groups">
+											<% person.groups.forEach(group => { %>
+											<span class="group" style="border: 2px solid <%=group.colour%>;">
+												<%=group.name%>
+											</span>
+											<% }) %>
+
+											<% if(!person.groups.length) { %>
+												<p>No Groups</p>
+											<% }%> 
+										</div>
+									<% } else { %>
+										<p class="person__category"><%=categories[key]%></p>	
+										<p><%=person[key] %></p>
+									<% } %>
+								</div>
+
+								<% }); %>
+							</div>
+							<% } %>
 						</td>
 						<% if (typeof columns != "undefined") { %>
 						<% columns.forEach(key => {  %>
 						<% if(key == "groups"){ %>
-						<td>
+						<td class="people__other">
 							<div class="groups">
 								<% person.groups.forEach(group => { %>
 								<span class="group" style="border: 2px solid <%=group.colour%>;">
@@ -142,7 +172,7 @@
 							</div>
 						</td>
 						<% } else { %>
-						<td>
+						<td class="people__other">
 							<%=person[key] %>
 						</td>
 						<% } %>

@@ -4,11 +4,34 @@
 		background-color: #8748DB;
 		color:$white;
 	}
+
+	&__other{
+		display:none;
+	}
+
+	@include tablet{
+		&__other{
+			display:table-cell;
+		}
+	}
 }
 
 .person{
+	vertical-align: top;
+
 	&:nth-child(2n+1){
 		background-color: lighten(#8748DB,40%);
+	}
+
+	$this:&;
+	&--open{
+		#{$this}__dropdown{
+			display:block;
+		}
+
+		#{$this}__down i{
+			transform:rotate(180deg);
+		}
 	}
 
 	&__action{
@@ -21,13 +44,41 @@
 		visibility: hidden;
 	}
 
+	&__dropdown{
+		display:none;
+		margin-top: 3rem;
+	}
+
+	&__category{
+		text-transform: uppercase;
+		font-size:1.4rem;
+		color:$grey;
+	}
+
+	&__attr{
+		margin-bottom: 1rem;
+	}
+
 	&:hover{
 		.person__actions * {
 			visibility: visible;
 		}
 	}
 
-	vertical-align: top;
+	&__down{
+		color:$primary;
+
+		i{
+			transition: transform 0.3s;
+		}
+	}
+
+	@include tablet{
+		&__down{
+			display:none;
+		}
+	}
+	
 }
 
 
