@@ -8,7 +8,7 @@
 
 	&__header{
 		background-color: #5353DD;
-		color:white;
+		color:$white;
 	}
 }
 
@@ -19,6 +19,8 @@
 
 	margin-right:2rem;
 	position: relative;
+
+	$this:&;
 
 	&__name{
 		display: inline;
@@ -42,10 +44,10 @@
 	}
 
 	&:hover{
-		.group__options{
+		#{$this}__options{
 			display: block;
 		}
-		.group__name{
+		#{$this}__name{
 			visibility: hidden;
 		}
 	}
