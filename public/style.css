@@ -202,23 +202,30 @@ textarea {
 
 .dialog {
   position: absolute;
-  top: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  top: 3rem;
   border: none;
   padding: 0;
+  background-color: #fafafa;
   width: 40%;
-  z-index: 3; }
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: none; }
+  .dialog--show {
+    display: block; }
   .dialog__header {
     background-color: #5353DD;
-    color: white;
-    padding: 0.5rem 1.5rem;
+    color: #fafafa;
+    padding: 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center; }
-  .dialog__close {
+  .dialog__cross {
     font-size: 2rem;
-    color: white; }
+    color: #fafafa; }
   .dialog__content {
-    padding: 0.5rem 1.5rem;
+    padding: 2rem;
     color: #878787; }
   .dialog__options {
     display: flex;
@@ -229,7 +236,7 @@ textarea {
 
 .people__header {
   background-color: #8748DB;
-  color: white; }
+  color: #fafafa; }
 
 .person {
   vertical-align: top; }
