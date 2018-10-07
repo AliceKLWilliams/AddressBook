@@ -34,6 +34,7 @@
 		transform: translate(-50%, -50%);
 
 		display: none;
+		align-items: center;
 	}
 
 	&__option{
@@ -45,7 +46,7 @@
 
 	&:hover{
 		#{$this}__options{
-			display: block;
+			display: flex;
 		}
 		#{$this}__name{
 			visibility: hidden;
