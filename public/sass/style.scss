@@ -1,5 +1,6 @@
 @import "variables";
 @import "reset";
+@import "typography";
 @import "form";
 @import "navigation";
 @import "button";
@@ -7,21 +8,22 @@
 @import "table";
 @import "group";
 
-main{
-	margin-left:300px;
-	padding-left: 40px;
-	
-	max-width: calc(100vw - 380px);
 
-	padding-top:50px;
+main{
+	margin-left:30rem;
+	padding-left: 4rem;
+	
+	max-width: calc(100vw - 38rem);
+
+	padding-top:5rem;
 }
 
 
 .card{
 	background-color: white;
-	border:1px solid #e3e3e3;
+	border:0.1rem solid #e3e3e3;
 
-	margin-bottom: 50px;
+	margin-bottom: 5rem;
 
 	&__header{
 		display:flex;
@@ -30,11 +32,11 @@ main{
 
 		background-color: $primary;
 		color:white;
-		padding:20px;
+		padding:2rem;
 	}
 
 	&__content{
-		padding:20px;
+		padding:2rem;
 	}
 }
 
@@ -59,7 +61,7 @@ main{
 
 .container{
 	width:40%;
-	margin:40px auto;
+	margin:4rem auto;
 }
 
 .title{
