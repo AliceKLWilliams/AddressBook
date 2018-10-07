@@ -199,6 +199,10 @@ textarea {
     padding: 0;
     box-shadow: none; }
 
+.home-btn {
+  margin-top: 2rem;
+  margin-left: 2rem; }
+
 .dialog {
   position: absolute;
   top: 2rem;
