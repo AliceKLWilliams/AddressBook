@@ -36,11 +36,15 @@
 
 	&__action{
 		&::after{
-			content: " | "
+			content: " | ";
+		}
+
+		&:last-of-type::after{
+			content:"";
 		}
 	}
 
-	&__actions *{
+	&__action{
 		visibility: hidden;
 	}
 
@@ -60,7 +64,7 @@
 	}
 
 	&:hover{
-		.person__actions * {
+		#{$this}__action{
 			visibility: visible;
 		}
 	}

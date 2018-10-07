@@ -265,7 +265,9 @@ textarea {
     transform: rotate(180deg); }
   .person__action::after {
     content: " | "; }
-  .person__actions * {
+  .person__action:last-of-type::after {
+    content: ""; }
+  .person__action {
     visibility: hidden; }
   .person__dropdown {
     display: none;
@@ -276,7 +278,7 @@ textarea {
     color: #878787; }
   .person__attr {
     margin-bottom: 1rem; }
-  .person:hover .person__actions * {
+  .person:hover .person__action {
     visibility: visible; }
   .person__down {
     color: #5353DD; }

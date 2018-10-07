@@ -183,7 +183,7 @@
 						<td class="person__actions">
 							<a href="/people/<%= person._id%>" class="person__action btn btn--link">View</a>
 							<a href="/people/<%= person._id %>/edit" class="person__action btn btn--link">Edit</a>
-							<form action="/people/<%=person._id%>?_method=DELETE" method="POST" class="inline">
+							<form action="/people/<%=person._id%>?_method=DELETE" method="POST" class="inline person__action">
 								<button class="btn btn--link" class="person__action">Delete</button>
 							</form>
 						</td>
