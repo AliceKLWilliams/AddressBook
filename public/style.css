@@ -79,8 +79,8 @@ input[type="date"] {
 input[type="color"] {
   border: none;
   background-color: transparent;
-  width: 40rem;
-  height: 40rem; }
+  width: 4rem;
+  height: 4rem; }
 
 textarea {
   resize: none;
