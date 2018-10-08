@@ -44,11 +44,16 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		color:$dark-grey;
 	}
 
 	&__title{
 		font-weight: normal;
 		font-size:1.6rem;
+	}
+
+	&__down{
+		transition: transform 0.3s;
 	}
 
 	&__options{
@@ -79,8 +84,13 @@
 
 	&--open{
 		background-color: $white;
+
 		#{$this}__options{
 			display:block;
+		}
+
+		#{$this}__down{
+			transform:rotate(180deg);
 		}
 	}
 }

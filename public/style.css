@@ -161,10 +161,13 @@ textarea {
   .filter__header {
     display: flex;
     justify-content: space-between;
-    align-items: center; }
+    align-items: center;
+    color: #484848; }
   .filter__title {
     font-weight: normal;
     font-size: 1.6rem; }
+  .filter__down {
+    transition: transform 0.3s; }
   .filter__options {
     display: none;
     color: #878787; }
@@ -184,6 +187,8 @@ textarea {
     background-color: #fafafa; }
     .filter--open .filter__options {
       display: block; }
+    .filter--open .filter__down {
+      transform: rotate(180deg); }
 
 .btn {
   background-color: #5353DD;
@@ -335,7 +340,7 @@ th {
 
 main {
   width: 80%;
-  margin: 4rem auto; }
+  margin: 0 auto; }
   @media screen and (min-width: 768px) {
     main {
       margin-left: 30rem;
