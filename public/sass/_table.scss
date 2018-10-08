@@ -5,6 +5,10 @@
 		color:$white;
 	}
 
+	&__content{
+		overflow-x:auto;
+	}
+
 	&__other{
 		display:none;
 	}
@@ -39,7 +43,7 @@
 			content: " | ";
 		}
 
-		&:last-of-type::after{
+		&:last-child::after{
 			content:"";
 		}
 	}

@@ -99,11 +99,11 @@ textarea {
   width: 100%;
   justify-content: space-between;
   margin: 1rem 0rem; }
-  .option input {
+  .option input[type="checkbox"], .option input[type="radio"] {
     display: none; }
-    .option input:checked + .checkbox .checkbox__tick {
+    .option input[type="checkbox"]:checked + .checkbox .checkbox__tick, .option input[type="radio"]:checked + .checkbox .checkbox__tick {
       display: inline; }
-    .option input:checked + .radio .radio__tick {
+    .option input[type="checkbox"]:checked + .radio::after, .option input[type="radio"]:checked + .radio::after {
       display: inline; }
 
 .checkbox {
@@ -125,11 +125,19 @@ textarea {
   align-items: center;
   justify-content: center;
   border: 0.2rem solid #5353DD;
-  border-radius: 3rem; }
-  .radio__tick {
-    display: none;
-    color: #5353DD;
-    font-size: 1rem; }
+  border-radius: 3rem;
+  position: relative; }
+  .radio::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #5353DD;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    display: none; }
 
 .nav {
   background-color: #fff;
@@ -254,6 +262,8 @@ textarea {
 .people__header {
   background-color: #8748DB;
   color: #fafafa; }
+.people__content {
+  overflow-x: auto; }
 .people__other {
   display: none; }
 @media screen and (min-width: 768px) {
@@ -270,7 +280,7 @@ textarea {
     transform: rotate(180deg); }
   .person__action::after {
     content: " | "; }
-  .person__action:last-of-type::after {
+  .person__action:last-child::after {
     content: ""; }
   .person__action {
     visibility: hidden; }
