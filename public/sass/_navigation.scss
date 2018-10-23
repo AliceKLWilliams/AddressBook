@@ -6,11 +6,20 @@
 
 	padding:4rem 0rem;
 
+	&__group{
+		margin-bottom: 4rem;
+	}
+
 	&__title{
 		padding:0rem 2rem;
 		font-size:1.4rem;
 		font-weight: normal;
-		text-transform: uppercase;;
+		text-transform: uppercase;
+
+		&--icon{
+			padding-right: 0.5rem;
+			display: inline-block;
+		}
 	}
 
 	@include tablet{
@@ -42,6 +51,8 @@
 	&__search{
 		border:2px solid $primary;
 		padding:1rem;
+
+		width:100%;
 
 		border-radius: 3rem;
 
@@ -89,7 +100,11 @@
 
 	&__btns{
 		margin-top:3rem;
-		text-align:center;
+		text-align: center;
+	}
+
+	&__btn{
+		margin-right: 2rem;
 	}
 
 	$this: &;
@@ -113,7 +128,7 @@
 
 .info{
 	position: relative;
-	display: inline-block;
+	display: inline;
 
 	margin-right: 1rem;
 

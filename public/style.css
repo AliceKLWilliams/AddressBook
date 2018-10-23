@@ -48,11 +48,16 @@ p, td, label, i {
   background-color: #fff;
   color: #878787;
   padding: 4rem 0rem; }
+  .nav__group {
+    margin-bottom: 4rem; }
   .nav__title {
     padding: 0rem 2rem;
     font-size: 1.4rem;
     font-weight: normal;
     text-transform: uppercase; }
+    .nav__title--icon {
+      padding-right: 0.5rem;
+      display: inline-block; }
   @media screen and (min-width: 768px) {
     .nav {
       width: 30rem;
@@ -74,6 +79,7 @@ p, td, label, i {
   .filter__search {
     border: 2px solid #5353DD;
     padding: 1rem;
+    width: 100%;
     border-radius: 3rem;
     font-size: 1.4rem;
     font-family: "Poppins", "Arial", sans-serif;
@@ -103,6 +109,8 @@ p, td, label, i {
   .filter__btns {
     margin-top: 3rem;
     text-align: center; }
+  .filter__btn {
+    margin-right: 2rem; }
   .filter--open {
     background-color: #fafafa; }
     .filter--open .filter__options {
@@ -114,7 +122,7 @@ p, td, label, i {
 
 .info {
   position: relative;
-  display: inline-block;
+  display: inline;
   margin-right: 1rem; }
   .info:hover .info__tooltip {
     display: block; }
