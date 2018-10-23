@@ -22,21 +22,21 @@
 		grid-template-columns: 1fr 1fr;
 		grid-gap: 4rem;
 	}
+
+	&__text{
+		border: none;
+		border-bottom: 0.1rem solid $grey;
+		padding:0.5rem;
+
+		font-size:1.6rem;
+		font-family: $font;
+
+		background-color: transparent;
+	}
 }
 
 .form-inline{
 	display:inline-block;
-}
-
-input[type="text"]{
-	border: none;
-	border-bottom: 0.1rem solid $grey;
-	padding:0.5rem;
-
-	font-size:1.6rem;
-	font-family: $font;
-
-	background-color: transparent;
 }
 
 input[type="date"]{

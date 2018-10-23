@@ -2,8 +2,8 @@
 @import "mixins";
 @import "reset";
 @import "typography";
-@import "form";
 @import "navigation";
+@import "form";
 @import "button";
 @import "modal";
 @import "table";
@@ -14,7 +14,6 @@ main{
 	width:80%;
 	margin:0 auto;
 	
-
 	@include tablet{
 		margin-left:30rem;
 		padding-left: 4rem;

@@ -39,6 +39,18 @@
 		background-color: $white;
 	}
 
+	&__search{
+		border:2px solid $primary;
+		padding:1rem;
+
+		border-radius: 3rem;
+
+		font-size:1.4rem;
+		font-family: $font;
+
+		background-color: transparent;
+	}
+
 
 	&__header{
 		display: flex;

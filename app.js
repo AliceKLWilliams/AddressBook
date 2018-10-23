@@ -55,11 +55,34 @@ app.get("/", (req, res) => {
 	Promise.all(getterPromises)
 	.then(([people, groups]) => {
 		let filteredPeople = people;
+
+		// Filter for search term (only text fields)
+		if(queryData["query"]){
+			let query = queryData["query"];
+
+			filteredPeople = filteredPeople.filter(person => {
+				let include = false;
+
+				let searchableFields = ["firstName", "lastName", "birthday", "address", "postcode"];
+
+				searchableFields.forEach(field => {
+					if(person[field]){
+						include |= person[field].includes(query);
+					}
+				});
+
+				include |= `${person.firstName} ${person.lastName}`.includes(query);
+
+				return include;
+			});
+		}
+
+
 		// Filter for Group
 		if(queryData["filterGroups"]){ // If we have selected groups
 			let filterType = queryData["groupFilter"];
 
-			filteredPeople = people.filter(person => {
+			filteredPeople = filteredPeople.filter(person => {
 				let personGroupIds = person.groups.map(group => group._id.toString());
 				if(filterType === "some"){
 					return [...queryData["filterGroups"]].some(groupID => personGroupIds.includes(groupID));
