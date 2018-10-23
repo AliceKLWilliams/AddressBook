@@ -109,6 +109,38 @@ p, td, label, i {
       display: block; }
     .filter--open .filter__down {
       transform: rotate(180deg); }
+  .filter--search:hover {
+    background-color: #fff; }
+
+.info {
+  position: relative;
+  display: inline-block;
+  margin-right: 1rem; }
+  .info:hover .info__tooltip {
+    display: block; }
+  .info__tooltip {
+    position: absolute;
+    display: none;
+    left: 30px;
+    top: 7px;
+    transform: translateY(-50%);
+    background-color: #5353DD;
+    color: #fafafa;
+    padding: 1rem;
+    width: 200px; }
+    .info__tooltip p {
+      font-size: 1.4rem; }
+    .info__tooltip::before {
+      position: absolute;
+      left: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+      content: "";
+      height: 0px;
+      width: 0px;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-right: 10px solid #5353DD; }
 
 .form__group {
   display: flex;

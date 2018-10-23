@@ -105,4 +105,51 @@
 			transform:rotate(180deg);
 		}
 	}
+
+	&--search:hover{
+		background-color: #fff;
+	}
+}
+
+.info{
+	position: relative;
+	display: inline-block;
+
+	margin-right: 1rem;
+
+	&:hover &__tooltip{
+		display:block;
+	}
+
+	&__tooltip{
+		position: absolute;
+		display:none;
+		left:30px;
+		top:7px;
+		transform: translateY(-50%);
+		background-color: $primary;
+		color:$white;
+		padding:1rem;
+
+		width:200px;
+
+		p{
+			font-size:1.4rem;
+		}
+
+		&::before{
+			position: absolute;
+			left:-10px;
+			top:50%;
+			transform: translateY(-50%);
+			content:"";
+
+			height:0px;
+			width: 0px;
+
+			border-top: 10px solid transparent;
+			border-bottom: 10px solid transparent;
+			border-right: 10px solid $primary;
+		}
+	}
 }
