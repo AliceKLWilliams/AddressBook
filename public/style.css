@@ -77,10 +77,10 @@ p, td, label, i {
   .filter:hover {
     background-color: #fafafa; }
   .filter__search {
-    border: 2px solid #5353DD;
+    border: none;
+    border-bottom: 1.5px solid #878787;
     padding: 1rem;
     width: 100%;
-    border-radius: 3rem;
     font-size: 1.4rem;
     font-family: "Poppins", "Arial", sans-serif;
     background-color: transparent; }
@@ -375,7 +375,8 @@ th {
   padding: 0.8rem 4rem;
   border-radius: 2rem;
   margin-right: 2rem;
-  position: relative; }
+  position: relative;
+  color: #484848; }
   .group__name {
     display: inline; }
   .group__options {
