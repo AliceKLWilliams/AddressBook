@@ -4,9 +4,34 @@
 	background-color: #fff;
 	color:$grey;
 
-	padding:4rem 0rem;
+	padding:3rem 0rem;
 
 	margin-bottom: 5rem;
+
+	&--open {
+		.nav__content {
+			display: block;
+		}
+
+		.nav__toggle i {
+			transform: rotate(180deg);
+		}
+	}
+
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	&__content {
+		display: none;
+		margin-top: 5rem;
+	}
+
+	&__toggle {
+		margin-right: 2rem;
+	}
 
 	&__group{
 		margin-bottom: 4rem;
@@ -32,6 +57,14 @@
 		min-height: 100vh;
 
 		margin-bottom: 0rem;
+
+		&__toggle {
+			display: none;
+		}
+
+		&__content {
+			display: block;
+		}
 	}
 	
 }
@@ -39,8 +72,6 @@
 .logo{
 	display: inline-block;
 	color:$primary;
-
-	margin-bottom: 5rem;
 	margin-left:2rem;
 }
 

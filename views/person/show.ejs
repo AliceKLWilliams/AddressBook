@@ -10,10 +10,22 @@
 	</div>
 
 	<div class="card__content">
-		<p>Address: <%= person.address %></p>
-		<p>Postcode: <%= person.postcode %></p>
-		<p>Mobile: <%= person.mobile %></p>
-		<p>Home No: <%= person.homePhone %></p>
+		<% if(person.address) { %>
+			<p class="card__label">Address</p>
+			<p class="card__data"><%= person.address %></p>
+		<% } %>
+		<% if(person.postcode) { %>
+			<p class="card__label">Postcode</p>
+			<p class="card__data"><%= person.postcode %></p>
+		<% } %>
+		<% if(person.mobile) { %>
+			<p class="card__label">Mobile</p>
+			<p class="card__data"><%= person.mobile %></p>
+		<% } %>
+		<% if(person.homePhone) { %>
+			<p class="card__label">Home Number</p>
+			<p class="card__data"><%= person.homePhone %></p>
+		<% } %>
 
 		<% if(person.address) { %>
 			<div class="card__map">
