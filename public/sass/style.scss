@@ -44,9 +44,22 @@ main{
 		padding:2rem;
 	}
 
+	&__label {
+		text-transform: uppercase;
+		font-size:1.4rem;
+		color:$grey;
+	}
+
+	&__data {
+		margin-bottom: 1.5rem;
+
+		&:last-of-type {
+			margin-bottom: 0;
+		}
+	}
+
 	&__map {
 		width: 100%;
-		margin-top: 40px;
 	}
 }
 

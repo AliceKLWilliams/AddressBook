@@ -1,92 +1,98 @@
 <% include partials/header %>
 
 <nav class="nav">
-	<h1 class="logo">Address Book</h1>
-	<div class="nav__group">
-		<h2 class="nav__title nav__title--icon">Search</h2>
-		<div class="info">
-			<i class="fas fa-info-circle"></i>
-			<div class="info__tooltip">
-				<p>Search within name's, address', postcodes, or birthday's.</p>
-			</div>
-		</div>
-		<div class="filter filter--search">
-			<input type="text" class="filter__search" placeholder="Enter Search Query..." name="query">
-		</div>
+	<div class="nav__header">
+		<h1 class="logo">Address Book</h1>
+		<button class="nav__toggle"><i class="fas fa-angle-down filter__down"></i></button>
 	</div>
 
-	<div class="nav__group">
-		<h2 class="nav__title">Filters</h2>
-		<form action="/" method="GET">
-			<div class="filter">
-				<div class="filter__header">
-					<h3 class="filter__title">Columns</h3>
-					<i class="fas fa-angle-down filter__down"></i>
-				</div>
-				<div class="filter__options">
-					<% for (key in categories) { %>
-					<label for="<%=key%>" class="option">
-						<%=categories[key]%>
-						<% if(typeof columns != "undefined" && columns.includes(key)) { %>
-						<input type="checkbox" id="<%=key%>" name="<%=key%>" value="<%=key%>" checked>
-						<% } else { %>
-						<input type="checkbox" id="<%=key%>" name="<%=key%>" value="<%=key%>">
-						<% } %>
-						<span class="checkbox"><i class="fas fa-check checkbox__tick"></i></span>
-					</label>
-					<% } %>
+	<div class="nav__content">
+		<div class="nav__group">
+			<h2 class="nav__title nav__title--icon">Search</h2>
+			<div class="info">
+				<i class="fas fa-info-circle"></i>
+				<div class="info__tooltip">
+					<p>Search within name's, address', postcodes, or birthday's.</p>
 				</div>
 			</div>
-			<div class="filter">
-				<div class="filter__header">
-					<h3 class="filter__title">Groups</h3>
-					<i class="fas fa-angle-down filter__down"></i>
-				</div>
-
-				<div class="filter__options">
-					<div class="filter__groups">
-						<% groups.forEach(group => { %>
-						<label class="option" for="<%=group._id%>">
-							<%=group.name%>
-							<% if(typeof groupFilter != "undefined" && groupFilter.includes(group._id.toString())) { %>
-							<input id="<%=group._id%>" type="checkbox" value="<%=group._id%>" name="filterGroups" checked>
+			<div class="filter filter--search">
+				<input type="text" class="filter__search" placeholder="Enter Search Query..." name="query">
+			</div>
+		</div>
+	
+		<div class="nav__group">
+			<h2 class="nav__title">Filters</h2>
+			<form action="/" method="GET">
+				<div class="filter">
+					<div class="filter__header">
+						<h3 class="filter__title">Columns</h3>
+						<i class="fas fa-angle-down filter__down"></i>
+					</div>
+					<div class="filter__options">
+						<% for (key in categories) { %>
+						<label for="<%=key%>" class="option">
+							<%=categories[key]%>
+							<% if(typeof columns != "undefined" && columns.includes(key)) { %>
+							<input type="checkbox" id="<%=key%>" name="<%=key%>" value="<%=key%>" checked>
 							<% } else { %>
-							<input id="<%=group._id%>" type="checkbox" value="<%=group._id%>" name="filterGroups">
+							<input type="checkbox" id="<%=key%>" name="<%=key%>" value="<%=key%>">
 							<% } %>
 							<span class="checkbox"><i class="fas fa-check checkbox__tick"></i></span>
 						</label>
-						<% }) %>
+						<% } %>
 					</div>
-
-					<label for="all" class="option">
-						<% if(typeof groupCondition != "undefined" && groupCondition == "all"){ %>
-						<input type="radio" name="groupFilter" value="all" id="all" checked>
-						<% } else { %>
-						<% if(typeof groupCondition == "undefined"){ %>
-						<input type="radio" name="groupFilter" value="all" id="all" checked>
-						<% } else { %>
-						<input type="radio" name="groupFilter" value="all" id="all">
-						<% } %>
-						<% } %>
-						Contains All
-						<span class="radio"></span>
-					</label>
-					<label for="some" class="option">
-						<% if(typeof groupCondition != "undefined" && groupCondition == "some"){ %>
-						<input type="radio" name="groupFilter" value="some" id="some" checked>
-						<% } else { %>
-						<input type="radio" name="groupFilter" value="some" id="some">
-						<% } %>
-						Contains Some
-						<span class="radio"></span>
-					</label>
 				</div>
-			</div>
-			<div class="filter__btns">
-				<button class="btn filter__btn" type="submit">Filter</button>
-				<a href="/" class="btn btn--secondary filter__btn">Reset Filters</a>
-			</div>
-		</form>
+				<div class="filter">
+					<div class="filter__header">
+						<h3 class="filter__title">Groups</h3>
+						<i class="fas fa-angle-down filter__down"></i>
+					</div>
+	
+					<div class="filter__options">
+						<div class="filter__groups">
+							<% groups.forEach(group => { %>
+							<label class="option" for="<%=group._id%>">
+								<%=group.name%>
+								<% if(typeof groupFilter != "undefined" && groupFilter.includes(group._id.toString())) { %>
+								<input id="<%=group._id%>" type="checkbox" value="<%=group._id%>" name="filterGroups" checked>
+								<% } else { %>
+								<input id="<%=group._id%>" type="checkbox" value="<%=group._id%>" name="filterGroups">
+								<% } %>
+								<span class="checkbox"><i class="fas fa-check checkbox__tick"></i></span>
+							</label>
+							<% }) %>
+						</div>
+	
+						<label for="all" class="option">
+							<% if(typeof groupCondition != "undefined" && groupCondition == "all"){ %>
+							<input type="radio" name="groupFilter" value="all" id="all" checked>
+							<% } else { %>
+							<% if(typeof groupCondition == "undefined"){ %>
+							<input type="radio" name="groupFilter" value="all" id="all" checked>
+							<% } else { %>
+							<input type="radio" name="groupFilter" value="all" id="all">
+							<% } %>
+							<% } %>
+							Contains All
+							<span class="radio"></span>
+						</label>
+						<label for="some" class="option">
+							<% if(typeof groupCondition != "undefined" && groupCondition == "some"){ %>
+							<input type="radio" name="groupFilter" value="some" id="some" checked>
+							<% } else { %>
+							<input type="radio" name="groupFilter" value="some" id="some">
+							<% } %>
+							Contains Some
+							<span class="radio"></span>
+						</label>
+					</div>
+				</div>
+				<div class="filter__btns">
+					<button class="btn filter__btn" type="submit">Filter</button>
+					<a href="/" class="btn btn--secondary filter__btn">Reset Filters</a>
+				</div>
+			</form>
+		</div>
 	</div>
 </nav>
 
