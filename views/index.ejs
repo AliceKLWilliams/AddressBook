@@ -124,12 +124,19 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Name</th>
+						<th>Name
+							<button class="sort" data-category="name" data-order="ASC">
+								<i class="fa fa-sort-up sort__icon"></i>
+							</button>
+						</th>
 
 						<% if(typeof columns != "undefined") { %>
 						<% columns.forEach(key => { %>
 						<th class="people__other">
 							<%= categories[key] %>
+							<button class="sort" data-category="<%=key%>" data-order="ASC">
+								<i class="fa fa-sort-up sort__icon"></i>
+							</button>
 						</th>
 						<% }); %>
 						<% } %>
@@ -140,7 +147,7 @@
 				<tbody>
 					<% people.forEach(person => { %>
 					<tr class="person">
-						<td>
+						<td data-category="name">
 							<% if (columns.length) { %>
 								<button class="person__down"><i class="fas fa-angle-down"></i></button>
 							<% } %>
@@ -177,7 +184,7 @@
 						<% if (typeof columns != "undefined") { %>
 						<% columns.forEach(key => {  %>
 						<% if(key == "groups"){ %>
-						<td class="people__other">
+						<td class="people__other" data-category="groups">
 							<div class="groups">
 								<% person.groups.forEach(group => { %>
 								<span class="group" style="border: 2px solid <%=group.colour%>;">
@@ -186,7 +193,7 @@
 							</div>
 						</td>
 						<% } else { %>
-						<td class="people__other">
+						<td class="people__other" data-category="<%=key%>">
 							<%=person[key] %>
 						</td>
 						<% } %>
@@ -238,5 +245,7 @@
 </div>
 
 <div class="overlay"></div>
+
+<script src="sort.js"></script>
 
 <% include partials/footer %>

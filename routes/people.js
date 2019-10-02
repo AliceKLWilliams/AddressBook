@@ -4,51 +4,49 @@ let router = express.Router();
 let Person = require("../models/Person");
 let Group = require("../models/Group");
 
-router.get("/people/new", (req, res) => {
-	Group.find({}).then(groups => {
+router.get("/people/new", async (req, res) => {
+	try {
+		let groups = await Group.find({});
 		res.render("person/new", {groups});
-	})
-	.catch(err => {
+	} catch (error) {
 		res.redirect("/error");
-	});
+	}
 });
 
-router.get("/people/:id", (req, res) => {
-	Person.findById(req.params.id)
-	.then(person => {
+router.get("/people/:id", async (req, res) => {
+	try {
+		let person = Person.findById(req.params.id);
 		if(person){
 			res.render("person/show", {person});
 		} else{
 			res.redirect("/error");
 		}
-	})
-	.catch(err => {
+	} catch (error) {
 		res.redirect("/error");
-	});
+	}
 });
 
-router.get("/people/:id/edit", (req, res) => {
+router.get("/people/:id/edit", async (req, res) => {
 	let getters = [Person.findById(req.params.id), Group.find({})];
 
-	Promise.all(getters)
-	.then(([person, groups]) => {
+	try {
+		let [person, groups] = await Promise.all(getters);
 		res.render("person/edit", {person, groups});
-	}).catch(err => {
+	} catch (error) {
 		res.redirect("/error");
-	});
-
+	}
 });
 
-router.delete("/people/:id", (req, res) => {
-	Person.findByIdAndRemove(req.params.id)
-	.then((deletedPerson) => {
-		res.redirect("/");
-	}).catch(err => {
-		res.redirect("/error");
-	});
+router.delete("/people/:id", async (req, res) => {
+	try {
+		await Person.findByIdAndRemove(req.params.id);
+		res.redirect('/');
+	} catch (error) {
+		res.redirect('/error');
+	}
 });
 
-router.put("/people/:id", (req, res) => {
+router.put("/people/:id", async (req, res) => {
 	const prefix = "group-";
 
 	let groups = [];
@@ -59,25 +57,24 @@ router.put("/people/:id", (req, res) => {
 		}
 	}
 
-	Person.updateOne({_id: req.params.id}, {
-		firstName: req.body.firstName,
-		lastName: req.body.lastName,
-		birthday: formatBirthday(req.body.birthday),
-		address: req.body.address,
-		postcode: req.body.postcode,
-		mobile: req.body.mobile,
-		homePhone: req.body.homePhone,
-		groups
-	})
-	.then((person) => {
+	try {
+		await Person.updateOne({_id: req.params.id}, {
+			firstName: req.body.firstName,
+			lastName: req.body.lastName,
+			birthday: formatBirthday(req.body.birthday),
+			address: req.body.address,
+			postcode: req.body.postcode,
+			mobile: req.body.mobile,
+			homePhone: req.body.homePhone,
+			groups
+		});
 		res.redirect("/");
-	})
-	.catch((err) => {
+	} catch (error) {
 		res.redirect("/error");
-	});
+	}
 });
 
-router.post("/people", (req, res) => {
+router.post("/people", async (req, res) => {
 	const prefix = "group-";
 
 	let groups = [];
@@ -90,22 +87,21 @@ router.post("/people", (req, res) => {
 
 	let formattedBday = formatBirthday(req.body.birthday);
 
-	Person.create({
-		firstName: req.body.firstName,
-		lastName: req.body.lastName,
-		birthday: formattedBday,
-		address: req.body.address,
-		postcode: req.body.postcode,
-		mobile: req.body.mobile,
-		homePhone: req.body.homePhone,
-		groups
-	}, (err) => {
-		if(err){
-			res.redirect("/error");
-		} else {
-			res.redirect("/");
-		}
-	});
+	try {
+		await Person.create({
+			firstName: req.body.firstName,
+			lastName: req.body.lastName,
+			birthday: formattedBday,
+			address: req.body.address,
+			postcode: req.body.postcode,
+			mobile: req.body.mobile,
+			homePhone: req.body.homePhone,
+			groups
+		});
+		res.redirect("/");
+	} catch (error) {
+		res.redirect("/error");
+	}
 });
 
 function formatBirthday(date){
