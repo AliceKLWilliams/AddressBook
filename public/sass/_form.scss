@@ -22,21 +22,21 @@
 		grid-template-columns: 1fr 1fr;
 		grid-gap: 4rem;
 	}
+
+	&__text{
+		border: none;
+		border-bottom: 0.1rem solid $grey;
+		padding:0.5rem;
+
+		font-size:1.6rem;
+		font-family: $font;
+
+		background-color: transparent;
+	}
 }
 
 .form-inline{
 	display:inline-block;
-}
-
-input[type="text"]{
-	border: none;
-	border-bottom: 0.1rem solid $grey;
-	padding:0.5rem;
-
-	font-size:1.6rem;
-	font-family: $font;
-
-	background-color: transparent;
 }
 
 input[type="date"]{
@@ -76,14 +76,14 @@ textarea{
 	justify-content: space-between;
 	margin:1rem 0rem;
 
-	input{
+	input[type="checkbox"], input[type="radio"]{
 		display: none;
 
 		&:checked + .checkbox .checkbox__tick{
 			display: inline;
 		}
 
-		&:checked + .radio .radio__tick{
+		&:checked + .radio::after{
 			display: inline;
 		}
 	}
@@ -91,9 +91,34 @@ textarea{
 
 .checkbox{
 	@include choice;	
+
+	
+	&__tick{
+		display:none;
+		color:$primary;
+
+		font-size:1rem;
+	}
 }
 
 .radio{
 	@include choice;
 	border-radius: 3rem;
+	position: relative;
+
+	&::after{
+		content:"";
+		position: absolute;
+		top:50%;
+		left:50%;
+		transform: translate(-50%, -50%);
+
+		background-color: $primary;
+		height:8px;
+		width: 8px;
+
+		border-radius: 50%;
+
+		display: none;
+	}
 }

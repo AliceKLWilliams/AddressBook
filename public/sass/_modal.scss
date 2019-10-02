@@ -10,7 +10,7 @@
 
 	background-color: $white;
 
-	width:40%;
+	width:80%;
 	left:50%;
 	transform:translateX(-50%);
 
@@ -51,5 +51,9 @@
 
 	&__btn{
 		margin-right: 1.5rem;
+	}
+
+	@include tablet{
+		width:40%;
 	}
 }

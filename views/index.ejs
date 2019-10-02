@@ -3,12 +3,25 @@
 <nav class="nav">
 	<h1 class="logo">Address Book</h1>
 	<div class="nav__group">
+		<h2 class="nav__title nav__title--icon">Search</h2>
+		<div class="info">
+			<i class="fas fa-info-circle"></i>
+			<div class="info__tooltip">
+				<p>Search within name's, address', postcodes, or birthday's.</p>
+			</div>
+		</div>
+		<div class="filter filter--search">
+			<input type="text" class="filter__search" placeholder="Enter Search Query..." name="query">
+		</div>
+	</div>
+
+	<div class="nav__group">
 		<h2 class="nav__title">Filters</h2>
 		<form action="/" method="GET">
 			<div class="filter">
 				<div class="filter__header">
 					<h3 class="filter__title">Columns</h3>
-					<i class="fas fa-angle-down"></i>
+					<i class="fas fa-angle-down filter__down"></i>
 				</div>
 				<div class="filter__options">
 					<% for (key in categories) { %>
@@ -27,7 +40,7 @@
 			<div class="filter">
 				<div class="filter__header">
 					<h3 class="filter__title">Groups</h3>
-					<i class="fas fa-angle-down"></i>
+					<i class="fas fa-angle-down filter__down"></i>
 				</div>
 
 				<div class="filter__options">
@@ -56,7 +69,7 @@
 						<% } %>
 						<% } %>
 						Contains All
-						<span class="radio"><i class="fas fa-check radio__tick"></i></span>
+						<span class="radio"></span>
 					</label>
 					<label for="some" class="option">
 						<% if(typeof groupCondition != "undefined" && groupCondition == "some"){ %>
@@ -65,12 +78,13 @@
 						<input type="radio" name="groupFilter" value="some" id="some">
 						<% } %>
 						Contains Some
-						<span class="radio"><i class="fas fa-check radio__tick"></i></span>
+						<span class="radio"></span>
 					</label>
 				</div>
 			</div>
 			<div class="filter__btns">
 				<button class="btn filter__btn" type="submit">Filter</button>
+				<a href="/" class="btn btn--secondary filter__btn">Reset Filters</a>
 			</div>
 		</form>
 	</div>
@@ -106,16 +120,23 @@
 			<h2>People</h2>
 			<a class="btn btn--light" href="/people/new">Add Person</a>
 		</div>
-		<div class="card__content">
+		<div class="card__content people__content">
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Name</th>
+						<th>Name
+							<button class="sort" data-category="name" data-order="ASC">
+								<i class="fa fa-sort-up sort__icon"></i>
+							</button>
+						</th>
 
 						<% if(typeof columns != "undefined") { %>
 						<% columns.forEach(key => { %>
-						<th>
+						<th class="people__other">
 							<%= categories[key] %>
+							<button class="sort" data-category="<%=key%>" data-order="ASC">
+								<i class="fa fa-sort-up sort__icon"></i>
+							</button>
 						</th>
 						<% }); %>
 						<% } %>
@@ -126,14 +147,44 @@
 				<tbody>
 					<% people.forEach(person => { %>
 					<tr class="person">
-						<td>
+						<td data-category="name">
+							<% if (columns.length) { %>
+								<button class="person__down"><i class="fas fa-angle-down"></i></button>
+							<% } %>
 							<%= person.firstName %>
 							<%= person.lastName%>
+
+							<% if (columns.length) { %>
+							<div class="person__dropdown">
+								<% columns.forEach(key => {  %>
+								<div class="person__attr">
+									<% if(key == "groups"){ %>
+										<p class="person__category"><%=categories[key]%></p>
+										<div class="groups">
+											<% person.groups.forEach(group => { %>
+											<span class="group" style="border: 2px solid <%=group.colour%>;">
+												<%=group.name%>
+											</span>
+											<% }) %>
+
+											<% if(!person.groups.length) { %>
+												<p>No Groups</p>
+											<% }%> 
+										</div>
+									<% } else { %>
+										<p class="person__category"><%=categories[key]%></p>	
+										<p><%=person[key] %></p>
+									<% } %>
+								</div>
+
+								<% }); %>
+							</div>
+							<% } %>
 						</td>
 						<% if (typeof columns != "undefined") { %>
 						<% columns.forEach(key => {  %>
 						<% if(key == "groups"){ %>
-						<td>
+						<td class="people__other" data-category="groups">
 							<div class="groups">
 								<% person.groups.forEach(group => { %>
 								<span class="group" style="border: 2px solid <%=group.colour%>;">
@@ -142,7 +193,7 @@
 							</div>
 						</td>
 						<% } else { %>
-						<td>
+						<td class="people__other" data-category="<%=key%>">
 							<%=person[key] %>
 						</td>
 						<% } %>
@@ -153,7 +204,7 @@
 						<td class="person__actions">
 							<a href="/people/<%= person._id%>" class="person__action btn btn--link">View</a>
 							<a href="/people/<%= person._id %>/edit" class="person__action btn btn--link">Edit</a>
-							<form action="/people/<%=person._id%>?_method=DELETE" method="POST" class="inline">
+							<form action="/people/<%=person._id%>?_method=DELETE" method="POST" class="inline person__action">
 								<button class="btn btn--link" class="person__action">Delete</button>
 							</form>
 						</td>
@@ -194,5 +245,7 @@
 </div>
 
 <div class="overlay"></div>
+
+<script src="sort.js"></script>
 
 <% include partials/footer %>

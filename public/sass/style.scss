@@ -2,8 +2,8 @@
 @import "mixins";
 @import "reset";
 @import "typography";
-@import "form";
 @import "navigation";
+@import "form";
 @import "button";
 @import "modal";
 @import "table";
@@ -11,12 +11,15 @@
 
 
 main{
-	margin-left:30rem;
-	padding-left: 4rem;
+	width:80%;
+	margin:0 auto;
 	
-	max-width: calc(100vw - 38rem);
-
-	padding-top:5rem;
+	@include tablet{
+		margin-left:30rem;
+		padding-left: 4rem;
+		padding-top:5rem;
+		max-width: calc(100vw - 38rem);
+	}
 }
 
 
@@ -28,6 +31,7 @@ main{
 
 	&__header{
 		display:flex;
+		flex-wrap: wrap;
 		justify-content: space-between;
 		align-items: center;
 
@@ -61,6 +65,10 @@ main{
 }
 
 .container{
-	width:40%;
 	margin:4rem auto;
+	width:80%;
+
+	@include tablet{
+		width:40%;
+	}
 }

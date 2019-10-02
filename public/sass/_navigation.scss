@@ -4,19 +4,30 @@
 	background-color: #fff;
 	color:$grey;
 
-	width:30rem;
-	position: absolute;
-	left:0;
-	top:0;
-	min-height: 100vh;
-
 	padding:4rem 0rem;
+
+	&__group{
+		margin-bottom: 4rem;
+	}
 
 	&__title{
 		padding:0rem 2rem;
 		font-size:1.4rem;
 		font-weight: normal;
-		text-transform: uppercase;;
+		text-transform: uppercase;
+
+		&--icon{
+			padding-right: 0.5rem;
+			display: inline-block;
+		}
+	}
+
+	@include tablet{
+		width:30rem;
+		position: absolute;
+		left:0;
+		top:0;
+		min-height: 100vh;
 	}
 	
 }
@@ -37,16 +48,34 @@
 		background-color: $white;
 	}
 
+	&__search{
+		border:none;
+		border-bottom:1.5px solid $grey;
+		padding:1rem;
+
+		width:100%;
+
+		font-size:1.4rem;
+		font-family: $font;
+
+		background-color: transparent;
+	}
+
 
 	&__header{
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		color:$dark-grey;
 	}
 
 	&__title{
 		font-weight: normal;
 		font-size:1.6rem;
+	}
+
+	&__down{
+		transition: transform 0.3s;
 	}
 
 	&__options{
@@ -70,15 +99,71 @@
 
 	&__btns{
 		margin-top:3rem;
-		text-align:center;
+		text-align: center;
+	}
+
+	&__btn{
+		margin-right: 2rem;
 	}
 
 	$this: &;
 
 	&--open{
 		background-color: $white;
+
 		#{$this}__options{
 			display:block;
+		}
+
+		#{$this}__down{
+			transform:rotate(180deg);
+		}
+	}
+
+	&--search:hover{
+		background-color: #fff;
+	}
+}
+
+.info{
+	position: relative;
+	display: inline;
+
+	margin-right: 1rem;
+
+	&:hover &__tooltip{
+		display:block;
+	}
+
+	&__tooltip{
+		position: absolute;
+		display:none;
+		left:30px;
+		top:7px;
+		transform: translateY(-50%);
+		background-color: $primary;
+		color:$white;
+		padding:1rem;
+
+		width:200px;
+
+		p{
+			font-size:1.4rem;
+		}
+
+		&::before{
+			position: absolute;
+			left:-10px;
+			top:50%;
+			transform: translateY(-50%);
+			content:"";
+
+			height:0px;
+			width: 0px;
+
+			border-top: 10px solid transparent;
+			border-bottom: 10px solid transparent;
+			border-right: 10px solid $primary;
 		}
 	}
 }

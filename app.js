@@ -47,63 +47,82 @@ const categories = {
 	groups: "Groups"
 }
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
 
 	let queryData = url.parse(req.url, true).query;
 	let getterPromises = [Person.find({}).populate("groups"), Group.find({})];
 
-	Promise.all(getterPromises)
-	.then(([people, groups]) => {
-		let filteredPeople = people;
-		// Filter for Group
-		if(queryData["filterGroups"]){ // If we have selected groups
-			let filterType = queryData["groupFilter"];
+	let [people, groups] = await Promise.all(getterPromises);
 
-			filteredPeople = people.filter(person => {
-				let personGroupIds = person.groups.map(group => group._id.toString());
-				if(filterType === "some"){
-					return [...queryData["filterGroups"]].some(groupID => personGroupIds.includes(groupID));
-				} else{
-					return [...queryData["filterGroups"]].every(groupID => personGroupIds.includes(groupID));
+	let filteredPeople = people;
+
+	// Filter for search term (only text fields)
+	if(queryData["query"]){
+		let query = queryData["query"];
+
+		filteredPeople = filteredPeople.filter(person => {
+			let include = false;
+
+			let searchableFields = ["firstName", "lastName", "birthday", "address", "postcode"];
+
+			searchableFields.forEach(field => {
+				if(person[field]){
+					include |= person[field].includes(query);
 				}
-
 			});
-		}
 
-		// Set Ages
-		filteredPeople.forEach(person => setAge(person));
+			include |= `${person.firstName} ${person.lastName}`.includes(query);
 
-		// Find Table Columns
-		let tableColumns = [];
-		for(key in queryData){
-			if(categories.hasOwnProperty(key)){
-				tableColumns.push(queryData[key]);
-			}
-		}
-
-		res.render("index", {
-			people: filteredPeople, 
-			groups, 
-			categories, 
-			columns:tableColumns,
-			groupFilter:queryData["filterGroups"], 
-			groupCondition: queryData["groupFilter"]
+			return include;
 		});
+	}
+
+	// Filter for Group
+	if(queryData["filterGroups"]){ // If we have selected groups
+		let filterType = queryData["groupFilter"];
+
+		filteredPeople = filteredPeople.filter(person => {
+			let personGroupIds = person.groups.map(group => group._id.toString());
+			if(filterType === "some"){
+				return [...queryData["filterGroups"]].some(groupID => personGroupIds.includes(groupID));
+			} else{
+				return [...queryData["filterGroups"]].every(groupID => personGroupIds.includes(groupID));
+			}
+
+		});
+	}
+
+	// Set Ages
+	filteredPeople.forEach(person => setAge(person));
+
+	// Find Table Columns
+	let tableColumns = [];
+	for(key in queryData){
+		if(categories.hasOwnProperty(key)){
+			tableColumns.push(queryData[key]);
+		}
+	}
+
+	res.render("index", {
+		people: filteredPeople, 
+		groups, 
+		categories, 
+		columns:tableColumns,
+		groupFilter:queryData["filterGroups"], 
+		groupCondition: queryData["groupFilter"]
 	});
-	
 });
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
 	let getters = [Person.find({}).populate("groups"), Group.find({})];
 
-	Promise.all(getters)
-	.then(([people, groups]) => {
+	try {
+		let [people, groups] = await Promise.all(getters);
 		people.forEach(person => setAge(person));
-
 		res.render("index", {people, groups, categories});
-	}).catch(err => {
+	} catch (error) {
 		res.redirect("/error");
-	});
+	}
 });
 
 function setAge(person){

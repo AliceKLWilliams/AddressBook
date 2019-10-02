@@ -11,7 +11,7 @@ router.get("/group/new", (req, res) => {
 	res.render("group/new");
 });
 
-router.post("/group", (req, res) => {
+router.post("/group", async (req, res) => {
 
 	let colour = hexToRgb(req.body.colour);
 
@@ -20,46 +20,47 @@ router.post("/group", (req, res) => {
 
 	let fontColour = (luminance > 0.5) ? "#000000" : "#FFFFFF";
 
-	Group.create({
-		name: req.body.name,
-		colour:req.body.colour,
-		fontColour
-	}, (err) => {
-		if(err) return res.redirect("/error");
+	try {
+		await Group.create({
+			name: req.body.name,
+			colour:req.body.colour,
+			fontColour
+		});
 		res.redirect("/");
-	})
+	} catch (error) {
+		return res.redirect("/error");
+	}
 });
 
-router.get("/group/:id/edit", (req, res) => {
-	Group.findById(req.params.id)
-	.then(group => {
+router.get("/group/:id/edit", async (req, res) => {
+	try {
+		let group = await Group.findById(req.params.id);
 		res.render("group/edit", {group});
-	})
-	.catch(err => {
+	} catch (error) {
 		res.redirect("/error");
-	});
+	}
 });
 
-router.put("/group/:id", (req, res) => {
+router.put("/group/:id", async (req, res) => {
 	let colour = hexToRgb(req.body.colour);
 
 	let luminance = ( 0.299 * colour.r + 0.587 * colour.g + 0.114 * colour.b)/255;
 
 	let fontColour = (luminance > 0.5) ? "#000000" : "#FFFFFF";
 
-	Group.updateOne({_id: req.params.id}, {
-		name: req.body.name,
-		colour:req.body.colour,
-		fontColour
-	})
-	.then(group => {
-		res.redirect("/");
-	}).catch(err => {
+	try {
+		await Group.updateOne({_id: req.params.id}, {
+			name: req.body.name,
+			colour:req.body.colour,
+			fontColour
+		});
+		res.redirect('/');
+	} catch (error) {
 		res.redirect("/error");
-	});
+	}
 });
 
-router.delete("/group/:id", (req, res) => {
+router.delete("/group/:id", async (req, res) => {
 	let personPromise;
 
 	if(req.query.deleteMembers){
@@ -70,13 +71,12 @@ router.delete("/group/:id", (req, res) => {
 		personPromise = Person.updateMany({groups: req.params.id}, {$pull: {groups: req.params.id}});
 	}
 
-	// Delete the group
-	Promise.all([Group.deleteOne({_id:req.params.id}), personPromise])
-	.then(data => {
-		res.redirect("/");
-	}).catch(err => {
+	try {
+		await Promise.all([Group.deleteOne({_id:req.params.id}), personPromise]);
+		res.redirect('/');
+	} catch (error) {
 		res.redirect("/error");
-	})
+	}
 });
 
 
