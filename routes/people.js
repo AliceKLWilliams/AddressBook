@@ -2,6 +2,29 @@ require('dotenv').config();
 
 let express = require("express");
 let router = express.Router();
+const mongoose = require('mongoose');
+
+const os = require('os');
+const fs = require('fs');
+const formData = require('express-form-data');
+const options = {
+	uploadDir: os.tmpdir(),
+	autoClean: true
+};
+
+router.use(formData.parse(options));
+router.use(formData.format());
+
+const {createModel} = require('mongoose-gridfs');
+
+let Picture = null;
+mongoose.connection.once('open', () => {
+	Picture = createModel({
+		bucketName:'picture',
+		modelName:'Picture',
+		connection:mongoose.connection
+	});
+})
 
 let Person = require("../models/Person");
 let Group = require("../models/Group");
@@ -92,7 +115,7 @@ router.post("/people", async (req, res) => {
 	let formattedBday = formatBirthday(req.body.birthday);
 
 	try {
-		await Person.create({
+		let newPerson = await Person.create({
 			firstName: req.body.firstName,
 			lastName: req.body.lastName,
 			birthday: formattedBday,
@@ -102,11 +125,35 @@ router.post("/people", async (req, res) => {
 			homePhone: req.body.homePhone,
 			groups
 		});
+
+		let stream = fs.createReadStream(req.files.picture.path);
+		let options = {
+			contentType: req.files.picture.type,
+			filename: req.files.picture.name,
+			metadata:{
+				personId: newPerson._id
+			}
+		};
+
+		await uploadPicture(options, stream);
+
 		res.redirect("/");
 	} catch (error) {
+		console.log(error);
 		res.redirect("/error");
 	}
 });
+
+function uploadPicture(options, stream){
+	return new Promise((resolve, reject) => {
+		Picture.write(options, stream, (err, logo) => {
+			if(err){
+				return reject(err);
+			}
+			return resolve(logo);
+		});
+	});
+}
 
 function formatBirthday(date){
 	let birthday = new Date(date);

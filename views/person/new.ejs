@@ -7,7 +7,7 @@
 		<h1>Add a new Person</h1>
 	</div>
 
-	<form action="/people" method="post" class="card__content">
+	<form action="/people" method="post" class="card__content" enctype="multipart/form-data">
 		<div class="form__group">
 			<label for="firstName">First Name</label>
 			<input type="text" class="form-control form__text" name="firstName">
@@ -42,6 +42,12 @@
 			<label for="homePhone">Home Phone</label>
 			<input type="text" class="form-control form__text" name="homePhone">
 		</div>
+
+		<div class="form__group">
+			<label for="picture">Picture</label>
+			<input type="file" class="form-control" name="picture">
+		</div>
+
 
 		<h2 class="form__sub">Groups</h2>
 
