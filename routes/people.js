@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 let express = require("express");
 let router = express.Router();
 
@@ -15,9 +17,11 @@ router.get("/people/new", async (req, res) => {
 
 router.get("/people/:id", async (req, res) => {
 	try {
-		let person = Person.findById(req.params.id);
+		let person = await Person.findById(req.params.id);
+		let apiKey = process.env.GOOGLE_MAPS;
+
 		if(person){
-			res.render("person/show", {person});
+			res.render("person/show", {person, apiKey});
 		} else{
 			res.redirect("/error");
 		}
